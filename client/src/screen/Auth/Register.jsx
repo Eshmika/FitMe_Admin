@@ -27,10 +27,10 @@ function StudentRegister() {
   }
 
    // Function to generate a wallet ID
-   function generateWalletId() {   
-    const randomNumber = generateRandomNumber(); // Get random 6-digit number
-    return `WID${randomNumber}`; // Concatenate SID, year, and random number
-  }
+  //  function generateWalletId() {   
+  //   const randomNumber = generateRandomNumber(); // Get random 6-digit number
+  //   return `WID${randomNumber}`; // Concatenate SID, year, and random number
+  // }
 
   const [data, setData] = useState({
     name: '',
@@ -41,7 +41,7 @@ function StudentRegister() {
     aid: generateStudentId(), // Auto-generate studentId
     password: '',
     repassword: ''  ,
-    walletid: generateWalletId() // Auto-generate walletId 
+    // walletid: generateWalletId() // Auto-generate walletId 
   });
 
   const registerStudent = async (e) => {
@@ -50,9 +50,9 @@ function StudentRegister() {
       toast.error('Passwords do not match');
       return;
     } else {
-      const { name, email, username, aid, password, walletid } = data;
+      const { name, email, username, aid, password} = data;
       try {
-        const response = await axios.post('/register', { name, email, username, aid, password, walletid });
+        const response = await axios.post('/adminregister', { name, email, username, aid, password});
         if (response.data.error) {
           toast.error(response.data.error);
         } else {
@@ -128,7 +128,7 @@ function StudentRegister() {
               </div>
               <br/>
               <button type="submit" className='btnloging'> SIGN UP</button>
-              <a href='/login'><p className="register">Already have an Account? <b>Log IN</b></p></a>
+              <a href='/'><p className="register">Already have an Account? <b>Log IN</b></p></a>
             </form>
           </div>
         </div>

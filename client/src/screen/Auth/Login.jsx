@@ -17,12 +17,12 @@ function StudentLogin() {
     e.preventDefault();
     const { username, password } = data;
     try {
-      const {data} = await axios.post('/login', {username, password});
+      const {data} = await axios.post('/adminlogin', {username, password});
       if(data.error){
         toast.error(data.error);
       }else{
         setData({});
-        navigate('/studentdashboard');
+        navigate('/register');
       }
     } catch (error) {
       console.log(error);
