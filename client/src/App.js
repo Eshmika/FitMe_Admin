@@ -3,7 +3,8 @@ import { Routes, Route } from 'react-router-dom';
 import axios from 'axios';
 import {Toaster} from 'react-hot-toast';
 
-import StudentLogin from './screen/Auth/Login';
+import Login from './screen/Auth/Login';
+import Register from './screen/Auth/Register';
 
 axios.defaults.baseURL = 'http://localhost:5000';
 axios.defaults.withCredentials = true;
@@ -13,7 +14,8 @@ function App() {
     <>
     <Toaster position='top-center' toastOptions={{duration: 2000}}/>
     <Routes>
-      <Route path="/" element={ <StudentLogin /> } />  
+      <Route path="/" element={ <Login /> } />  
+      <Route path="/register" element={ <Register /> } />
 
     </Routes>    
     </>

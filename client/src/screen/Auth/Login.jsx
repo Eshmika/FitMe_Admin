@@ -47,7 +47,6 @@ function StudentLogin() {
                     <label for="password" class="logintxt">PASSWORD</label><br/>
                     <input type="password" id="password" name="password" placeholder="Enter your password" class="loginbox" value={data.password} onChange={(e) => setData({...data, password: e.target.value})} />
                     </div>   
-                      
                 <a href='/studentforgetpassword'><p class="forget">Forgot Password?<br/></p></a>          
                 <button type="submit" className='btnloging'>LOGIN</button>
                 {/* <a href='/register'><p class="register">New Student? <b>REGISTER</b></p></a> */}
