@@ -17,7 +17,9 @@ Backend
 Frontend
 
 ```bash
-  
+    npm install react-router-dom@^6.22.3
+    npm install axios@^1.6.8
+    npm install react-hot-toast@^2.4.1
 ```
 Main File
 

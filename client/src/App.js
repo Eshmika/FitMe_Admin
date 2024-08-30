@@ -1,22 +1,22 @@
-import './App.css';
+import { Routes, Route } from 'react-router-dom';
+
+import axios from 'axios';
+import {Toaster} from 'react-hot-toast';
+
+import StudentLogin from './screen/Auth/Login';
+
+axios.defaults.baseURL = 'http://localhost:5000';
+axios.defaults.withCredentials = true;
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">        
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+    <Toaster position='top-center' toastOptions={{duration: 2000}}/>
+    <Routes>
+      <Route path="/" element={ <StudentLogin /> } />  
+
+    </Routes>    
+    </>
   );
 }
 
