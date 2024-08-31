@@ -28,6 +28,43 @@ const createproduct = async(req, res) => {
     }
 }
 
+//view all 
+const getall = async (req, res) =>{
+    Product.find()
+    .then(product => res.json(product))
+    .catch(err => res.json(err));
+}
+
+//view product by id
+const getProductbyid = (req, res) => {
+    const id = req.params.id;
+    Product.findOne({code:id})
+    .then(id => res.json(id))
+    .catch(err => res.json(err));
+}
+
+//update product by id
+const updateProductbyid = (req, res) => {
+    const id = req.params.code;
+    Product.findByIdAndUpdate({_id:id},{
+        name: req.body.name,
+        code: req.body.code,
+        category: req.body.category,
+        subcategory: req.body.subcategory,
+        brand: req.body.brand,
+        size: req.body.size,
+        color: req.body.color,
+        material: req.body.material,
+        price: req.body.price,
+        stock: req.body.stock        
+    })
+    .then(product => res.json(product))
+    .catch(err => res.json(err));
+}
+
 module.exports = {
-    createproduct
+    createproduct,
+    getall,
+    getProductbyid,
+    updateProductbyid
 }

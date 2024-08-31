@@ -25,7 +25,7 @@ function Nav() {
                     </li>
                     <li>
                         {/* <img alt='inventory' className='navimage'/> */}
-                        <a href='/insertstore'>Insert Store</a>
+                        <a href='/invendashboad'>Store Management</a>
                     </li>
                     <li>
                         {/* <img  alt='order' className='navimage'/> */}

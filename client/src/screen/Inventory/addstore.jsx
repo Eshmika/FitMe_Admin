@@ -41,7 +41,7 @@ function CreateNotice() {
                 'Your product has been successfully added.',
                 'success'
             ).then(() => {
-                navigate('/home');
+                navigate('/invendashboad');
             });
         }).catch(err => {
             console.error(err);
@@ -121,7 +121,7 @@ function CreateNotice() {
 
                             <div className="button-group">
                                 <button className="addNoticebutton" type="submit">Add Product</button>
-                                <Link to="/myclasses" className="cancelbutton_CN">Cancel</Link>
+                                <Link to="/invendashboad" className="cancelbutton_CN">Cancel</Link>
                             </div>
                         </form>
                     </div>

@@ -145,6 +145,7 @@ const getProfile = async (req, res) =>{
 }
 
 
+
 module.exports = {
     test,
     registerAdmin,
