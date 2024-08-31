@@ -129,9 +129,14 @@ const loginAdmin = async (req, res) => {
     }
 }
 
+//logout
+const logout = (req, res) => {
+    res.clearCookie('token').json({
+        message: 'Logged out successfully'
+    })
+}
 
-
-//view profile student
+//view profile 
 const getProfile = async (req, res) =>{
     Admin.find()
     .then(admin => res.json(admin))
@@ -144,5 +149,6 @@ module.exports = {
     test,
     registerAdmin,
     loginAdmin,
-    getProfile
+    getProfile,
+    logout
 }
