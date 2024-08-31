@@ -13,6 +13,7 @@ Backend
   npm install jsonwebtoken@^9.0.2
   npm install mongoose@^8.3.1
   npm install nodemon@^3.1.0  
+  npm install body-parser
 ```
 Frontend
 

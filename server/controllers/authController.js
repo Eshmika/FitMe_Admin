@@ -8,9 +8,10 @@ const test = (req, res) => {
 
     
 
+//Register
 const registerAdmin = async(req, res) => {
     try {
-        const { name, email, username, aid, password, SecAnswer } = req.body;
+        const { name, email, username, aid, password } = req.body;
 
         if(!name){
             return res.json({
@@ -24,23 +25,17 @@ const registerAdmin = async(req, res) => {
             })
         };
 
-        if(!contactnumber){
-            return res.json({
-                error: 'Phone number is required'
-            })
-        };
-
         if(!username){
             return res.json({
                 error: 'Username is required'
             })
-        };      
+        };  
         
-        if(!SecAnswer){
+        if(!aid || aid.length < 9 || aid.length > 9){
             return res.json({
-                error: 'Security answer is required'
+                error: 'Admin id is required and should be minimum 8 characters long'
             })
-        };    
+        }; 
 
         if(!password || password.length < 6){
             return res.json({
@@ -62,15 +57,21 @@ const registerAdmin = async(req, res) => {
             })
         };
 
+        const existstdid = await Admin.findOne({aid});
+        if(existstdid){
+            return res.json({
+                error: 'Admin id is already in use'
+            })
+        };
+
         const hashedPassword = await hashPassword(password);
 
         const admin = await Admin.create({
             name,
             email,
-            contactnumber,
             username,
-            password: hashedPassword,
-            SecAnswer
+            aid,
+            password: hashedPassword
         });
 
         return res.json({
@@ -81,6 +82,54 @@ const registerAdmin = async(req, res) => {
         console.log(error);
     }
 }
+    
+//Login
+const loginAdmin = async (req, res) => {
+    try {
+        const { username, password } = req.body;
+
+        const admin = await Admin.findOne({username});
+
+        if(!username){
+            return res.json({
+                error: 'Username is required'
+            })
+        }; 
+
+        if(!password){
+            return res.json({
+                error: 'Password is required'
+            })
+        };
+
+        if(!admin){
+            return res.json({
+                error: 'No user found'
+            })
+        };
+
+        const match = await comparePassword(password, admin.password);
+
+        if(match){
+            jwt.sign({
+                id: admin._id
+            }, process.env.JWT_SECRET, {expiresIn: '1d'}, (err, token) => {
+                if(err) throw err;
+                res.cookie('token', token).json(admin)
+            })                
+           
+        }
+        if(!match){
+            res.json({
+                error: 'Password is incorrect'            
+            })
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
 
 //view profile student
 const getProfile = async (req, res) =>{
@@ -94,5 +143,6 @@ const getProfile = async (req, res) =>{
 module.exports = {
     test,
     registerAdmin,
+    loginAdmin,
     getProfile
 }

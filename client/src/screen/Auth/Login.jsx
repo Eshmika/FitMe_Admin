@@ -22,7 +22,7 @@ function StudentLogin() {
         toast.error(data.error);
       }else{
         setData({});
-        navigate('/register');
+        navigate('/home');
       }
     } catch (error) {
       console.log(error);

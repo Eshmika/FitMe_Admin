@@ -116,7 +116,7 @@ function StudentRegister() {
               </div>      
               <div className="username">
                 <label htmlFor="username" className="logintxt">Admin ID</label><br/>
-                <input type="text" id="stdid" name="stdid" placeholder="Enter your student id" className="loginbox" value={data.stdid} onChange={(e) => setData({...data, stdid: e.target.value})} readOnly /> {/* Set as readOnly */}
+                <input type="text" id="stdid" name="stdid" placeholder="Enter your student id" className="loginbox" value={data.aid} onChange={(e) => setData({...data, stdid: e.target.value})} readOnly /> {/* Set as readOnly */}
               </div>         
               <div className="username">
                 <label htmlFor="password" className="logintxt">PASSWORD</label><br/>
