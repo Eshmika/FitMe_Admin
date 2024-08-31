@@ -21,7 +21,11 @@ function Nav() {
                 <ul className='sidenavbarul'>
                     <li>
                         {/* <img alt='inventory' className='navimage'/> */}
-                        <a href='/studentdashboard'>Inventory</a>
+                        <a href='/home'>Dashboard</a>
+                    </li>
+                    <li>
+                        {/* <img alt='inventory' className='navimage'/> */}
+                        <a href='/insertstore'>Insert Store</a>
                     </li>
                     <li>
                         {/* <img  alt='order' className='navimage'/> */}
