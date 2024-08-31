@@ -9,6 +9,12 @@ mongoose.connect(process.env.MONGO_URL)
   .then(() => console.log('MongoDB connected'))
   .catch((err) => console.log('Database not connected', err));
 
+  app.use(
+    cors({
+      origin: 'http://localhost:3000',
+      credentials: true
+    })
+  );
 
   app.use('/', require('./routes/authRouters'));
 
