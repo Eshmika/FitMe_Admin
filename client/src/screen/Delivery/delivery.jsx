@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import './delivery.css';
 import { Link } from 'react-router-dom';
-import { useReactToPrint } from 'react-to-print';
+// import { useReactToPrint } from 'react-to-print';
 
 
 function Payment() {
@@ -38,11 +38,11 @@ function Payment() {
 
   const ComponentsRef = useRef();
 
-  const handlePrint = useReactToPrint({
-    content: () => ComponentsRef.current,
-    documentTitle: "Delivery Schedule Report",
-    onAfterPrint: () => alert("Delivery Schedule Report Successfully Downloaded!"),
-  });
+//   const handlePrint = useReactToPrint({
+//     content: () => ComponentsRef.current,
+//     documentTitle: "Delivery Schedule Report",
+//     onAfterPrint: () => alert("Delivery Schedule Report Successfully Downloaded!"),
+//   });
 
   //search
 
@@ -79,7 +79,7 @@ function Payment() {
 
   return (
     <div>
-      <Navbar/>
+      
       <h1 className='Payment h1'>Delivery Schedule Details</h1>
       {isLoading && <p>Loading payments...</p>}
       {error && <p>Error fetching payments: {error.message}</p>}
