@@ -22,6 +22,7 @@ Frontend
     npm install axios@^1.6.8
     npm install react-hot-toast@^2.4.1
     npm i sweetalert2
+    npm i react-to-print
 ```
 Main File
 
