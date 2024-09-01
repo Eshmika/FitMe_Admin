@@ -29,6 +29,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use('/', require('./routes/authRouters'));
 app.use('/', require('./routes/productRouters'));
 app.use('/', require('./routes/paymentRouter'));
+app.use('/', require('./routes/invoiceRouter'));
 
 // Start the server
 const port = process.env.PORT || 5000;

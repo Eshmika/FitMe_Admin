@@ -10,6 +10,7 @@ import Insertstore from './screen/Inventory/addstore';
 import Invendashboad from './screen/Inventory/invendashboad';
 import UpdateStore from './screen/Inventory/updatestore';
 import PayView from './screen/Pay/StViewOnline';
+import Invoice from './screen/Pay/invoice';
 
 
 axios.defaults.baseURL = 'http://localhost:5000';
@@ -27,6 +28,7 @@ function App() {
       <Route path="/invendashboad" element={ <Invendashboad /> } /> 
       <Route path="/updatestore/:id" element={ <UpdateStore /> } />
       <Route path="/payview" element={ <PayView /> } />
+      <Route path="/invoice" element={ <Invoice /> } />
          
 
     </Routes>    
