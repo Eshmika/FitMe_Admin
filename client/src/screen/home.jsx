@@ -11,7 +11,7 @@ function Dashboard() {
         <div>
         <Nev/>
             <div className='profilecontent'>           
-                A
+                Admin Dashboard
             </div>
         </div>
     );

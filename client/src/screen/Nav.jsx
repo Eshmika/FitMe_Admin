@@ -31,6 +31,10 @@ function Nav() {
                         {/* <img  alt='order' className='navimage'/> */}
                         <a href='/test'>Order</a>
                     </li>
+                    <li>
+                        {/* <img alt='inventory' className='navimage'/> */}
+                        <a href='/payview'>Payment</a>
+                    </li>
                    
                     <br/><br/><br/><br/>
                     <li className='logoutsq'>

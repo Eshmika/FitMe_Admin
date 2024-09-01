@@ -28,6 +28,7 @@ app.use(express.urlencoded({ extended: false }));
 // Use routes after middleware
 app.use('/', require('./routes/authRouters'));
 app.use('/', require('./routes/productRouters'));
+app.use('/', require('./routes/paymentRouter'));
 
 // Start the server
 const port = process.env.PORT || 5000;
