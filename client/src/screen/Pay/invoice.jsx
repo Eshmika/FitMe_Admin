@@ -12,7 +12,7 @@ function StViewOnline() {
   const navigator = useNavigate();
 
   useEffect(() => {
-    axios.get('/getallpay')
+    axios.get('/getallinvoice')
     .then((res) => setPayments(res.data))
     .catch((err) => {
         console.log(err);
@@ -30,7 +30,7 @@ function StViewOnline() {
   // }, []);
 
   const handleDelete = (id) => {
-    axios.delete('http://Localhost:5000/deletepayment/' + id)
+    axios.delete('http://Localhost:5000/deleteinvoice/' + id)
       .then((res) => {
         // Handle success if needed
       })
@@ -39,8 +39,8 @@ function StViewOnline() {
 
   const handleSubmit = (id) => {
     Swal.fire({
-      title: "Delete Payment",
-      text: "Are you sure you want to delete the Payment Record?",
+      title: "Delete Inovice",
+      text: "Are you sure you want to delete the Inovice Record?",
       icon: "question",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -51,7 +51,7 @@ function StViewOnline() {
       if (result.isConfirmed) {
         handleDelete(id); // Call handleDelete function with payment ID
         Swal.fire({
-          title: "Payment is Deleted",
+          title: "Inovice is Deleted",
           icon: "success",
         });
         handleClick2();
@@ -65,7 +65,7 @@ function StViewOnline() {
   };
 
   const handleClick2 = () => {
-    toast.loading('Payment is Deleting...', {
+    toast.loading('Inovice is Deleting...', {
       style: {
         background: 'black',
         color: '#ffffff',
@@ -102,7 +102,7 @@ function StViewOnline() {
       <Nev/>
       <Toaster />
       <div className='bodyvo'>
-        <h1 className='h1vo'><br />Payments</h1>
+        <h1 className='h1vo'><br />Invoices</h1>
         <button type="submit" name="online" className="buttonvo1">Online</button> <br />
         {/* <Link to={'/viewbank'} >
           <button type="submit" name="bank" className="buttonvo2">Bank</button>
@@ -116,10 +116,16 @@ function StViewOnline() {
           <table className='tablevo'>
             <thead>
               <tr>
-                <th className='thvo'>Card Name</th>                
-                <th className='thvo'>Card Number</th>
-                <th className='thvo'>Expire Date</th>
-                <th className='thvo'>Security Code</th>
+                <th className='thvo'>Invoice Number</th>                
+                <th className='thvo'>Invoice Ddate</th>
+                <th className='thvo'>Customer Name</th>
+                <th className='thvo'>Customer Email</th>
+                <th className='thvo'>Customer Address</th>
+                <th className='thvo'>Item Name</th>
+                <th className='thvo'>Item Quantity</th>
+                <th className='thvo'>Item Price</th>
+                <th className='thvo'>Delivery Charge</th>
+                <th className='thvo'>Total</th>
                 {/* <th className='thvo'>Status</th> */}
                 {/* <th className='thvo'>Action</th>
                 <th className='thvo'></th> */}
@@ -133,10 +139,17 @@ function StViewOnline() {
             <tbody>
               {payments.map((payment) => (
                 <tr key={payment._id}>
-                  <td className='tdvo'>{payment.cardname}</td>                  
-                  <td className='tdvo'>{payment.cardnumber}</td>
-                  <td className='tdvo4'>{payment.expiredate}</td>
-                  <td className='tdvo5'>{payment.securitycode}</td>
+                  <td className='tdvo'>{payment.invoicenumber}</td> 
+                  <td className='tdvo'>{payment.invoicedate}</td>
+                  <td className='tdvo'>{payment.customername}</td>
+                  <td className='tdvo'>{payment.customeremail}</td>
+                  <td className='tdvo'>{payment.customeraddress}</td>
+                  <td className='tdvo'>{payment.itemname}</td>
+                  <td className='tdvo'>{payment.itemqunatity}</td>
+                  <td className='tdvo'>{payment.itemprice}</td>
+                  <td className='tdvo'>{payment.deliverycharge}</td>
+                  <td className='tdvo'>{payment.total}</td>                
+                  
                   {/* <td className='tdvo' style={{ color: payment.status === 'Approved' ? 'green' : payment.status === 'Rejected' ? 'red' : payment.status === 'Pending' ? 'blue' : 'inherit' }}>{payment.status}</td> */}
                   {/* <td className='tdvo'>
                     {payment.status !== 'Approved' && payment.status !== 'Rejected' ? (

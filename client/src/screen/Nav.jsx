@@ -29,7 +29,7 @@ function Nav() {
                     </li>
                     <li>
                         {/* <img  alt='order' className='navimage'/> */}
-                        <a href='/test'>Order</a>
+                        <a href='/invoice'>Invoice</a>
                     </li>
                     <li>
                         {/* <img alt='inventory' className='navimage'/> */}

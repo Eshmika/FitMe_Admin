@@ -1,5 +1,6 @@
 const Pay = require('../model/OnlinePayments');
 
+
 const getall = async (req, res) =>{
     Pay.find()
     .then(pay => res.json(pay))
