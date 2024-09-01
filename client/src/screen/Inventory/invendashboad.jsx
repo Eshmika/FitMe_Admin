@@ -34,7 +34,7 @@ function invendashboad() {
             <table>
                 <tr>
                     <td class="searchbarcol">
-                        <input type="text" id="search" name="search" placeholder="Search student name..." class="searchbar" onChange={(e)=> setSearchProduct(e.target.value)}/>
+                        <input type="text" id="search" name="search" placeholder="Search product name..." class="searchbar" onChange={(e)=> setSearchProduct(e.target.value)}/>
                     </td>
 
                 </tr>
