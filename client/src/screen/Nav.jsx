@@ -35,6 +35,10 @@ function Nav() {
                         {/* <img alt='inventory' className='navimage'/> */}
                         <a href='/payview'>Payment</a>
                     </li>
+                    <li>
+                        {/* <img alt='inventory' className='navimage'/> */}
+                        <a href='/feedbackView'>Feedback</a>
+                    </li>
                    
                     <br/><br/><br/><br/>
                     <li className='logoutsq'>
