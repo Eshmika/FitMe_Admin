@@ -6,6 +6,15 @@ const getall = async (req, res) =>{
     .catch(err => res.json(err));
 }
 
+//delete Online
+const deleteonline = (req, res) => {
+    const id = req.params.id;
+    Pay.findByIdAndDelete({_id:id})
+    .then(Payments => res.json(Payments))
+    .catch(err => res.json(err));
+}
+
 module.exports = {
-    getall
+    getall,
+    deleteonline
 }
