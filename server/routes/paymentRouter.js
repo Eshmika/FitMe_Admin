@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 const cors = require('cors');
 const { 
-  getall
+  getall,
+  deleteonline
 } = require('../controllers/payController');
 
 router.use(
@@ -13,5 +14,6 @@ router.use(
 )
 
 router.get('/getallpay', getall)
+router.delete('/deletepayment/:id', deleteonline)
 
 module.exports = router;

@@ -91,7 +91,7 @@ function StViewOnline() {
           },
         });
         setTimeout(() => {
-          navigator('/viewbank');
+          navigator('/home');
         }, 2500);
       }, 2500);
     }, 5000);
