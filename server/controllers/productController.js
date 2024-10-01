@@ -62,9 +62,18 @@ const updateProductbyid = (req, res) => {
     .catch(err => res.json(err));
 }
 
+//delete
+const deletestore = (req, res) => {
+    const id = req.params.id;
+    Admin.findByIdAndDelete({_id:id})
+    .then(admin => res.json(admin))
+    .catch(err => res.json(err));
+}
+
 module.exports = {
     createproduct,
     getall,
     getProductbyid,
-    updateProductbyid
+    updateProductbyid,
+    deletestore
 }

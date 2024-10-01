@@ -4,7 +4,8 @@ const cors = require('cors');
 const { createproduct,
   getall,
   getProductbyid,
-  updateProductbyid
+  updateProductbyid,
+  deletestore
 } = require('../controllers/productController');
 
 router.use(
@@ -17,6 +18,7 @@ router.post('/createproduct', createproduct)
 router.get('/getallproduct', getall)
 router.get('/getproductbyid/:id', getProductbyid)
 router.put('/updateproductbyid/:code', updateProductbyid)
+router.delete('/deletestore/:id', deletestore)
 
 
 

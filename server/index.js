@@ -30,6 +30,7 @@ app.use('/', require('./routes/authRouters'));
 app.use('/', require('./routes/productRouters'));
 app.use('/', require('./routes/paymentRouter'));
 app.use('/', require('./routes/invoiceRouter'));
+app.use('/', require('./routes/FeedbackRouter'));
 
 // Start the server
 const port = process.env.PORT || 5000;

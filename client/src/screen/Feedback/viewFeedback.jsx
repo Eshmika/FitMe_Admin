@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import Nev from '../Nav';
+import './stviewonline.css';
 
 function viewFeedback() {
   const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
-    axios.get('/getallpay')
+    axios.get('/getallfeedback')
     .then((res) => setReviews(res.data))
     .catch((err) => {
         console.log(err);
@@ -14,31 +16,33 @@ function viewFeedback() {
 
 
   return (
-    <div class="d-flex justify-content-center">
-            <h1>Customer Reviews</h1>
-            
-	    <table class="table table-dark table-hover">
+    <div class="bodyvo">
+            <h1 className='h1vo'>Customer Reviews</h1>
+     <div className="tbl-headervo">     
+	    <table className='tablevo'>
               <thead>
                 <tr>
-                  <th scope="col"> Product </th>
-                  <th scope="col"> Customer </th>
-                  <th scope="col"> Date </th>
-                  <th scope="col"> Feedback </th>
-                  <th scope="col"> Rating </th>
+                  <th className='thvo'> Product </th>
+                  <th className='thvo'> Customer </th>
+                  <th className='thvo'> Date </th>
+                  <th className='thvo'> Feedback </th>
+                  <th className='thvo'> Rating </th>
                 </tr>
               </thead>
               <tbody>
                 {reviews.map(review => (
                   <tr key={review._id}>
-                    <td> {review.customer} </td>
-                    <td> {review.product} </td>
-                    <td> {review.comment} </td>
-                    <td> {review.rating} </td>
-                    <td> {new Date(review.date).toLocaleDateString()} </td>
+                    <td className='tdvo'>{review.product}</td>
+                    <td className='tdvo'>{review.customername}</td>
+                    <td className='tdvo'>{review.submitdate}</td>
+                    <td className='tdvo'>{review.comment}</td>
+                    <td className='tdvo'>{review.rate}</td>
+                    
                   </tr>
                 ))}
               </tbody>
             </table>
+            </div>  
         </div>
   );
 }

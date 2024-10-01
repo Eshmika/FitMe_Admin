@@ -5,7 +5,7 @@ const { test,
     registerAdmin,
     getProfile,
     loginAdmin,
-    logout
+    logout,
 } = require('../controllers/authController');
 
 router.use(
@@ -21,5 +21,6 @@ router.post('/adminlogin', loginAdmin)
 router.post('/adminregister', registerAdmin)
 router.get('/adminprofile', getProfile)
 router.get('/logout', logout)
+
 
 module.exports = router;
