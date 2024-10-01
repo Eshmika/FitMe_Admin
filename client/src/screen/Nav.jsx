@@ -3,16 +3,22 @@ import '../screen/navbar.css'
 // import profile from './navbar_images/Profile.png'
 // import wallet from './navbar_images/Wallet.png'
 // import logout from './navbar_images/Logout.png'
-import axios from 'axios'
+import { auth } from './Auth/firebase';
+import toast from 'react-hot-toast';
+import { Navigate } from 'react-router-dom';
 
 function Nav() {
 
-    const handleDeletetoken = () => {
-        axios.get('/logout').then(res => {
-            console.log(res);
-            window.location.href = '/';
-        }).catch(err => console.log(err));
-    }
+    async function logout(){
+        try{
+            await auth.signOut();
+            toast.success('Logout Successfully!');
+            Navigate('/');
+        }catch(error){
+            console.log(error);
+            toast.error(error.message);
+        }
+    } 
 
 
   return (
@@ -47,7 +53,7 @@ function Nav() {
                     <br/><br/><br/><br/>
                     <li className='logoutsq'>
                         {/* <img  alt='logout' className='navimage'/> */}
-                        <div className='logoutbtn' onClick={handleDeletetoken}><div className='logouttxt'>Logout</div></div>
+                        <div className='logoutbtn' onClick={logout}><div className='logouttxt'>Logout</div></div>
                     </li>
                 </ul>
             </div>

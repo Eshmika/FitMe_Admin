@@ -13,6 +13,8 @@ import PayView from './screen/Pay/StViewOnline';
 import Invoice from './screen/Pay/invoice';
 import FeedbackView from './screen/Feedback/viewFeedback';
 import DeliveryView from './screen/Delivery/delivery'
+import { auth } from './screen/Auth/firebase';
+import { useEffect, useState } from 'react';
 
 
 
@@ -20,6 +22,12 @@ axios.defaults.baseURL = 'http://localhost:5000';
 axios.defaults.withCredentials = true;
 
 function App() {
+  const {user, setUser}= useState();
+  useEffect(() => {
+    auth.onAuthStateChanged((admin) => {
+        setUser(admin);
+    })
+  })
   return (
     <>
     <Toaster position='top-center' toastOptions={{duration: 2000}}/>

@@ -4,28 +4,26 @@ import {useNavigate} from 'react-router-dom';
 import './Login.css';
 // import loginimg from './photos/studentlogin.png'
 // import logofull from './photos/logofull.png'
-import axios from 'axios'
+import { signInWithEmailAndPassword } from '@firebase/auth';
+import { auth } from './firebase';
 
-function StudentLogin() {
+function AdminLogin() {
   const navigate = useNavigate();
   const [data, setData] = useState({
-    username: '',
+    email: '',
     password: ''
   })
 
-  const loginStudent = async (e) => {
+  const loginAdmin = async (e) => {
     e.preventDefault();
-    const { username, password } = data;
-    try {
-      const {data} = await axios.post('/adminlogin', {username, password});
-      if(data.error){
-        toast.error(data.error);
-      }else{
-        setData({});
-        navigate('/home');
-      }
-    } catch (error) {
+    try{
+      const { email, password } = data;
+      await signInWithEmailAndPassword(auth, email, password);
+      toast.success('Login Successfully!');
+      navigate('/home');
+    }catch(error){
       console.log(error);
+      toast.error(error.message);
     }
   }
   return (
@@ -38,10 +36,10 @@ function StudentLogin() {
           {/* <img src={logofull} alt='loginimage' /> */}
           <p class="wel">Welcome to FitMe Admin Portal</p>
           <div class="loginmid">
-            <form class="login" onSubmit={loginStudent}>
+            <form class="login" onSubmit={loginAdmin}>
                     <div class="username">
-                    <label for="username" class="logintxt">USERNAME</label><br/>
-                    <input type="text" id="username" name="username" placeholder="Enter your username" class="loginbox" value={data.username} onChange={(e) => setData({...data, username: e.target.value})} />
+                    <label for="username" class="logintxt">EMAIL</label><br/>
+                    <input type="text" id="email" name="email" placeholder="Enter your email" class="loginbox" value={data.email} onChange={(e) => setData({...data, email: e.target.value})} />
                     </div>    
                     <div class="username">
                     <label for="password" class="logintxt">PASSWORD</label><br/>
@@ -49,7 +47,7 @@ function StudentLogin() {
                     </div>   
                 <a href='/studentforgetpassword'><p class="forget">Forgot Password?<br/></p></a>          
                 <button type="submit" className='btnloging'>LOGIN</button>
-                {/* <a href='/register'><p class="register">New Student? <b>REGISTER</b></p></a> */}
+                <a href='/register'><p class="register">Admin <b>REGISTER</b></p></a>
             </form>
           </div>  
         </div>
@@ -59,4 +57,4 @@ function StudentLogin() {
   )
 }
 
-export default StudentLogin
+export default AdminLogin
