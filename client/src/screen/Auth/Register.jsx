@@ -3,8 +3,10 @@ import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
-// import loginimg from './photos/studentlogin.png';
-// import logofull from './photos/logofull.png';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth, db } from './firebase';
+import { doc, setDoc } from 'firebase/firestore';
+
 
 function StudentRegister() {
   const navigate = useNavigate();
@@ -26,63 +28,48 @@ function StudentRegister() {
     return `AID${year}${randomNumber}`; // Concatenate SID, year, and random number
   }
 
-   // Function to generate a wallet ID
-  //  function generateWalletId() {   
-  //   const randomNumber = generateRandomNumber(); // Get random 6-digit number
-  //   return `WID${randomNumber}`; // Concatenate SID, year, and random number
-  // }
-
   const [data, setData] = useState({
     name: '',
     email: '',
-    // contactnumber: '',
-    // grade: '',
-    username: '',
-    aid: generateStudentId(), // Auto-generate studentId
+    username: '',    
     password: '',
     repassword: ''  ,
-    // walletid: generateWalletId() // Auto-generate walletId 
   });
+
 
   const registerStudent = async (e) => {
     e.preventDefault();
-    if (data.password !== data.repassword) {
-      toast.error('Passwords do not match');
-      return;
-    } else {
-      const { name, email, username, aid, password} = data;
-      try {
-        const response = await axios.post('/adminregister', { name, email, username, aid, password});
-        if (response.data.error) {
-          toast.error(response.data.error);
-        } else {
-          setData({
-            name: '',
-            email: '',
-            // contactnumber: '',
-            // grade: '',
-            username: '',
-            aid: generateStudentId(), // Auto-generate studentId for the next registration
-            password: '',
-            repassword: ''
+    try{       
+      if (data.password !== data.repassword) {
+        toast.error('Passwords do not match');
+        return;
+      }else{
+        const { name, email, username, password } = data;
+        await createUserWithEmailAndPassword(auth, email, password);
+        const admin = auth.currentUser;
+        if(admin){
+          await setDoc(doc(db, "admin_details", admin.uid), {
+            name: name,
+            email: admin.email,
+            username: username,            
           });
-          toast.success("Register Successfully!");
-          navigate('/login');
+
         }
-      } catch (error) {
-        console.log(error);
-      }
+        
+        toast.success("Register Successfully!");
+        navigate('/login');        
+      }      
+    }catch(error){
+      console.log(error);
     }
-  };
+  }
 
   return (
     <main>
       <div className="mainlogin">
         <div className="loginphoto">
-          {/* <img src={loginimg} alt='loginimage' className='loginimg' /> */}
         </div>
         <div className="login">
-          {/* <img src={logofull} alt='loginimage' /> */}
           <p className="wel">Welcome to FitMe Admin Portal</p>
           <div class="loginmid">
             <form onSubmit={registerStudent}>
@@ -94,30 +81,10 @@ function StudentRegister() {
                 <label htmlFor="email" className="logintxt">EMAIL</label><br/>
                 <input type="email" id="email" name="email" placeholder="Enter your email" className="loginbox" value={data.email} onChange={(e) => setData({...data, email: e.target.value})}/>
               </div>
-              {/* <div className="username">
-                <label htmlFor="contactnumber" className="logintxt">Contact Number</label><br/>
-                <input type="number" id="contactnumber" name="contactnumber" placeholder="Enter your contact number" className="loginbox" value={data.contactnumber} onChange={(e) => setData({...data, contactnumber: e.target.value})} />
-              </div> */}
-              {/* <div className="username">
-                <label htmlFor="grade" className="logintxt">GRADE</label><br/>
-                <select id="grade" name="grade" className="loginbox" value={data.grade} onChange={(e) => setData({...data, grade: e.target.value})}>
-                  <option value="">Select Grade</option>
-                  <option value="6">Grade 6</option>
-                  <option value="7">Grade 7</option>
-                  <option value="8">Grade 8</option>
-                  <option value="9">Grade 9</option>
-                  <option value="10">Grade 10</option>
-                  <option value="11">Grade 11</option>
-                </select>
-              </div> */}
               <div className="username">
                 <label htmlFor="username" className="logintxt">USERNAME</label><br/>
                 <input type="text" id="username" name="username" placeholder="Enter your username" className="loginbox" value={data.username} onChange={(e) => setData({...data, username: e.target.value})}/>
-              </div>      
-              <div className="username">
-                <label htmlFor="username" className="logintxt">Admin ID</label><br/>
-                <input type="text" id="stdid" name="stdid" placeholder="Enter your student id" className="loginbox" value={data.aid} onChange={(e) => setData({...data, stdid: e.target.value})} readOnly /> {/* Set as readOnly */}
-              </div>         
+              </div>   
               <div className="username">
                 <label htmlFor="password" className="logintxt">PASSWORD</label><br/>
                 <input type="password" id="password" name="password" placeholder="Enter your password" className="loginbox" value={data.password} onChange={(e) => setData({...data, password: e.target.value})}/>

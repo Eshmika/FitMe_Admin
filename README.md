@@ -23,6 +23,7 @@ Frontend
     npm install react-hot-toast@^2.4.1
     npm i sweetalert2
     npm i react-to-print
+    npm install firebase
 ```
 Main File
 
