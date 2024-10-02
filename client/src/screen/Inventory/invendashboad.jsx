@@ -1,89 +1,117 @@
-// import React, { useEffect, useState } from 'react'
-// import axios from 'axios'
-// import { Link } from 'react-router-dom'
-// import Swal from 'sweetalert2';
-// import Nev from '../Nav';
-// import './invendash.css'
+import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
+import Swal from 'sweetalert2';
+import Nev from '../Nav';
+import './invendash.css'
+import { collection, deleteDoc, doc, getDocs } from '@firebase/firestore';
+import { db } from '../Auth/firebase';
 
-// function invendashboad() {
+function Invendashboad() {
 
-//     const [product, setProduct] = useState([]);   
-//     const [searchproduct, setSearchProduct] = useState('');
+    const [products, setProducts] = useState([]);   
+    const [searchproduct, setSearchProduct] = useState('');
 
-//     useEffect(() => {
-//         axios.get('/getallproduct')
-//         .then((res) => setProduct(res.data))
-//         .catch((err) => {
-//             console.log(err);
-//         })
-//     }, [])
+    const getProductdetails = async () => {
+        const response = await getDocs(collection(db, "products")); 
+        const productList = response.docs.map(doc =>({ id: doc.id, ...doc.data() }));
+        setProducts(productList);
+    }  
 
-//   return (
-//     <div>
-//         <Nev/>
-//         <div className='profilecontent'>
-//             <h1>Store Management</h1>
-//             <table>
-//                 <tr>                
-//                     <td>          
-//                         <Link to={'/insertstore'}><button className='btnedit' type="submit">Add Store</button> </Link>
-//                     </td>             
-//                 </tr>
-//             </table>  
+    useEffect(() => {
+        getProductdetails();
+    }, []);
 
-//             <table>
-//                 <tr>
-//                     <td class="searchbarcol">
-//                         <input type="text" id="search" name="search" placeholder="Search product name..." class="searchbar" onChange={(e)=> setSearchProduct(e.target.value)}/>
-//                     </td>
+    const handleDelete = async (id) => {
+        try {
+            await deleteDoc(doc(db, "products", id));
+            Swal.fire(
+                'Product Deleted!',
+                'The product has been successfully deleted.',
+                'success'
+            ).then(() => {
+                getProductdetails();
+            });
+        } catch (error) {
+            console.error(error);
+            Swal.fire(
+                'Error!',
+                'An error occurred while deleting the product.',
+                'error'
+            );
+        }
+    }   
+    
 
-//                 </tr>
-//             </table>   
+  return (
+    <div>
+        <Nev/>
+        <div className='profilecontent'>
+            <h1>Store Management</h1>
+            <table>
+                <tr>                
+                    <td>          
+                        <Link to={'/insertstore'}><button className='btnedit' type="submit">Add Store</button> </Link>
+                    </td>             
+                </tr>
+            </table>  
 
-//             <div style={{ maxHeight: '220px', overflowY: 'scroll' }}>
-//                 <table className='searchtablemainmanager'>
-//                     <tr className='searchtablemainmanagerheader'>
-//                         <th>Name</th>
-//                         <th>Code</th>
-//                         <th>Category</th>
-//                         <th>Subcategory</th>
-//                         <th>Brand</th>
-//                         <th>Size</th>
-//                         <th>Color</th>
-//                         <th>Material</th>
-//                         <th>Price</th>
-//                         <th>Stock</th>             
-//                     </tr>
-//                     {product.filter((product) => {
-//                         return searchproduct.toLowerCase() === '' ? product : product.name.toLowerCase().includes(searchproduct)
-//                     }).map((product) => (
-//                         <tr className='searchtablemainadmindata'>
-//                             <td className='searchtabledata'>{product.name}</td>
-//                             <td className='searchtabledata'>{product.code}</td>
-//                             <td className='searchtabledata'>{product.category}</td>
-//                             <td className='searchtabledata'>{product.subcategory}</td>
-//                             <td className='searchtabledata'>{product.brand}</td>
-//                             <td className='searchtabledata'>{product.size}</td>
-//                             <td className='searchtabledata'>{product.color}</td>
-//                             <td className='searchtabledata'>{product.material}</td>
-//                             <td className='searchtabledata'>{product.price}</td>
-//                             <td className='searchtabledata'>{product.stock}</td>
+            <table>
+                <tr>
+                    <td class="searchbarcol">
+                        <input type="text" id="search" name="search" placeholder="Search product name..." class="searchbar" onChange={(e)=> setSearchProduct(e.target.value)}/>
+                    </td>
+
+                </tr>
+            </table>   
+
+            <div style={{ maxHeight: '220px', overflowY: 'scroll' }}>
+                <table className='searchtablemainmanager'>
+                    <tr className='searchtablemainmanagerheader'>
+                        <th>Name</th>
+                        <th>Code</th>
+                        <th>Category</th>
+                        <th>Subcategory</th>
+                        <th>Brand</th>
+                        <th>Size</th>
+                        <th>Color</th>
+                        <th>Material</th>
+                        <th>Price</th>
+                        <th>Stock</th> 
+                        <th>Update</th>
+                        <th>Delete</th>            
+                    </tr>
+                    {products.filter((product) => {
+                        return searchproduct.toLowerCase() === '' ? product : product.name.toLowerCase().includes(searchproduct)
+                    }).map((product) => (
+                        <tr className='searchtablemainadmindata'>
+                            <td className='searchtabledata'>{product.name}</td>
+                            <td className='searchtabledata'>{product.code}</td>
+                            <td className='searchtabledata'>{product.category}</td>
+                            <td className='searchtabledata'>{product.subcategory}</td>
+                            <td className='searchtabledata'>{product.brand}</td>
+                            <td className='searchtabledata'>{product.size}</td>
+                            <td className='searchtabledata'>{product.color}</td>
+                            <td className='searchtabledata'>{product.material}</td>
+                            <td className='searchtabledata'>{product.price}</td>
+                            <td className='searchtabledata'>{product.stock}</td>
                             
-//                             <td>
-//                                 <Link to={`/updatestore/${product.code}`}>
-//                                     <button className='btnupdate' >Update</button>                                       
-//                                 </Link>
-//                             </td>
-//                             {/* <td><button className='btndelete' onClick={(e) => studentDelete(student._id)}>Delete</button></td> */}
-//                         </tr>
-//                     ))}
+                            <td>
+                                <Link to={`/updatestore/${product.id}`}>
+                                    <button className='btnupdate' >Update</button>                                       
+                                </Link>
+                            </td>
+                            <td>
+                                <button className='btndelete' onClick={() => handleDelete(product.id)}>Delete</button>
+                            </td>
+                        </tr>
+                    ))}
 
-//                 </table>    
-//             </div>   
-//         </div>      
+                </table>    
+            </div>   
+        </div>      
         
-//     </div>
-//   )
-// }
+    </div>
+  )
+}
 
-// export default invendashboad
+export default Invendashboad

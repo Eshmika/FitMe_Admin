@@ -65,3 +65,18 @@
 .btnupdate:hover{  
     background-color: #8A8A8A;    
 }
+
+.btndelete{
+    width: 70px;
+    margin-left: 20px;
+    color: white;
+    font-family: 'Bahnschrift';    
+    font-weight: 800;
+    font-size: 18px;
+    background-color: #a71d1d;
+    border-radius: 10%;
+}
+
+.btndelete:hover{  
+    background-color: #e42929;
+}

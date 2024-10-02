@@ -38,6 +38,7 @@
 }
 
 .Noticecontainer input[type="text"],
+.Noticecontainer input[type="number"],
 .Noticecontainer select,
 .Noticecontainer textarea,
 .Noticecontainer input[type="date"] {

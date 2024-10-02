@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import './Style.css';
-import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import Nev from '../Nav';
+import { addDoc, collection } from '@firebase/firestore';
+import { db } from '../Auth/firebase';
 
 
 function CreateNotice() {
@@ -19,23 +20,21 @@ function CreateNotice() {
     const [stock, setStock] = useState('');    
     const navigate = useNavigate();
 
-
-    const submit = (e) => {
+    const submit = async (e) => {
         e.preventDefault();
-        axios.post('http://localhost:5000/createproduct', {
-            name: name,
-            code: code,
-            category: category,
-            subcategory: subcategory,
-            brand: brand,
-            size: size,
-            color: color,
-            material: material,
-            price: price,
-            stock: stock
-           
-        }).then(res => {
-            console.log('Success');
+        try {
+            await addDoc(collection(db, "products"), {
+                name: name,
+                code: code,
+                category: category,
+                subcategory: subcategory,
+                brand: brand,
+                size: size,
+                color: color,
+                material: material,
+                price: price,
+                stock: stock
+            });           
             Swal.fire(
                 'Product Added!',
                 'Your product has been successfully added.',
@@ -43,14 +42,14 @@ function CreateNotice() {
             ).then(() => {
                 navigate('/invendashboad');
             });
-        }).catch(err => {
-            console.error(err);
+        } catch (error) {
+            console.error(error);
             Swal.fire(
                 'Error!',
                 'An error occurred while adding the product.',
                 'error'
             );
-        });
+        }
     }
 
     return (
@@ -81,7 +80,7 @@ function CreateNotice() {
                                 <option value="">Select</option>
                                 <option value="T-shirts">T-shirts</option>
                                 <option value="Jeans">Jeans</option>
-                                <option value="Footwear">Dresses</option>
+                                <option value="Dresses">Dresses</option>
                             </select>
 
                             <label htmlFor="brand">Brand:</label>
@@ -113,10 +112,10 @@ function CreateNotice() {
                             </select>
 
                             <label htmlFor="price">Price:</label>
-                            <input type="text" name="price" placeholder="Enter price" onChange={(e) => setPrice(e.target.value)} required />
+                            <input type="number" name="price" placeholder="Enter price" step="0.01" onChange={(e) => setPrice(e.target.value)} required />
 
                             <label htmlFor="stock">Quantity in Stock:</label>
-                            <input type="text" name="stock" placeholder="Enter quantity in stock" onChange={(e) => setStock(e.target.value)} required />
+                            <input type="number" name="stock" placeholder="Enter quantity in stock" onChange={(e) => setStock(e.target.value)} required />
 
 
                             <div className="button-group">

@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import './Style.css';
-import axios from 'axios';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import Nev from '../Nav';
 import Swal from 'sweetalert2';
+import { doc, getDoc, updateDoc } from '@firebase/firestore';
+import { db } from '../Auth/firebase';
 
 function UpdateStudent() {
 
@@ -20,58 +21,66 @@ function UpdateStudent() {
     const [stock, setStock] = useState(''); 
     const { id } = useParams();  
 
-    useEffect(() => {
-        axios.get(`/getproductbyid/${id}`)
-            .then((res) => {                
-                setName(res.data.name);
-                setCode(res.data.code);
-                setCategory(res.data.category);
-                setSubcategory(res.data.subcategory);
-                setBrand(res.data.brand);
-                setSize(res.data.size);
-                setColor(res.data.color);
-                setMaterial(res.data.material);
-                setPrice(res.data.price);
-                setStock(res.data.stock);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+    const getProductdetails = useCallback(async () => {
+        try {
+            const response = await getDoc(doc(db, "products", id));
+            if (response.exists()) {
+                setName(response.data().name);
+                setCode(response.data().code);
+                setCategory(response.data().category);
+                setSubcategory(response.data().subcategory);
+                setBrand(response.data().brand);
+                setSize(response.data().size);
+                setColor(response.data().color);
+                setMaterial(response.data().material);
+                setPrice(response.data().price);
+                setStock(response.data().stock);
+            } else {
+                console.log("No such data found!");
+            }
+        } catch (error) {
+            console.error(error);
+        }
     }, [id]);
+
+    useEffect(() => {
+        getProductdetails();
+    }, [id, getProductdetails]);
+
+
 
     const updateStudent = async (e) => {
         e.preventDefault(); 
-        try {
-            await axios.put(`/updateproductbyid/${code}`, {
-                name,
-                code,
-                category,
-                subcategory,
-                brand,
-                size,
-                color,
-                material,
-                price,
-                stock
-            })
-        
-            await Swal.fire({
-                icon: 'success',
-                title: 'Success',
-                text: 'Product details updated successfully!',
-                confirmButtonText: 'OK'
+       try {
+            await updateDoc(doc(db, "products", id),{
+                name: name,
+                code: code,
+                category: category,
+                subcategory: subcategory,
+                brand: brand,
+                size: size,
+                color: color,
+                material: material,
+                price: price,
+                stock: stock
             });
-            navigate('/invendashboad');
-            } catch (error) {
-            console.error(error);
+            Swal.fire(
+                'Product Updated!',
+                'The product has been successfully updated.',
+                'success'
+            ).then(() => {
+                navigate('/invendashboad');
+            });                       
         
-            await Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'An error occurred while adding product details. Please try again later.',
-                confirmButtonText: 'OK'
-            });
-            }
+       } catch (error) {
+           console.error(error);
+           Swal.fire(
+               'Error!',
+               'An error occurred while updating the product.',
+               'error'
+           );
+        
+       }
     };
 
     
@@ -104,7 +113,7 @@ function UpdateStudent() {
                                 <option value="">Select</option>
                                 <option value="T-shirts">T-shirts</option>
                                 <option value="Jeans">Jeans</option>
-                                <option value="Footwear">Dresses</option>
+                                <option value="Dresses">Dresses</option>
                             </select>
 
                             <label htmlFor="brand">Brand:</label>

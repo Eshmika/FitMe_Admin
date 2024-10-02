@@ -39,7 +39,7 @@ function AdminLogin() {
             <form class="login" onSubmit={loginAdmin}>
                     <div class="username">
                     <label for="username" class="logintxt">EMAIL</label><br/>
-                    <input type="text" id="email" name="email" placeholder="Enter your email" class="loginbox" value={data.email} onChange={(e) => setData({...data, email: e.target.value})} />
+                    <input type="email" id="email" name="email" placeholder="Enter your email" class="loginbox" value={data.email} onChange={(e) => setData({...data, email: e.target.value})} />
                     </div>    
                     <div class="username">
                     <label for="password" class="logintxt">PASSWORD</label><br/>

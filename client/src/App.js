@@ -1,6 +1,5 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 
-import axios from 'axios';
 import {Toaster} from 'react-hot-toast';
 
 import Login from './screen/Auth/Login';
@@ -16,23 +15,18 @@ import DeliveryView from './screen/Delivery/delivery'
 import { auth } from './screen/Auth/firebase';
 import { useEffect, useState } from 'react';
 
-
-
-axios.defaults.baseURL = 'http://localhost:5000';
-axios.defaults.withCredentials = true;
-
 function App() {
-  const {user, setUser}= useState();
+  const [user, setUser]= useState();
   useEffect(() => {
-    auth.onAuthStateChanged((admin) => {
-        setUser(admin);
-    })
-  })
+    auth.onAuthStateChanged(user => {
+     setUser(user);
+    });
+  });
   return (
     <>
     <Toaster position='top-center' toastOptions={{duration: 2000}}/>
     <Routes>
-      <Route path="/" element={ <Login /> } />  
+      <Route path="/" element={ user ? <Navigate to="/home"/> : <Login /> } />  
       <Route path="/register" element={ <Register /> } />
       <Route path="/home" element={ <Home /> } />
       <Route path="/insertstore" element={ <Insertstore /> } /> 

@@ -5,15 +5,17 @@ import '../screen/navbar.css'
 // import logout from './navbar_images/Logout.png'
 import { auth } from './Auth/firebase';
 import toast from 'react-hot-toast';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function Nav() {
+
+    const navigate = useNavigate();
 
     async function logout(){
         try{
             await auth.signOut();
             toast.success('Logout Successfully!');
-            Navigate('/');
+            navigate('/');
         }catch(error){
             console.log(error);
             toast.error(error.message);
