@@ -1,158 +1,118 @@
-import React, { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
-import './delivery.css';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-// import { useReactToPrint } from 'react-to-print';
+import Swal from 'sweetalert2';
+import Nev from '../Nav';
 
+import { collection, deleteDoc, doc, getDocs } from '@firebase/firestore';
+import { db } from '../Auth/firebase';
 
-function Payment() {
-  const [payments, setPayments] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [noResults, setNoResults] = useState(false);
+function Delivery() {  // Renamed to uppercase 'Delivery'
+  const [deliveryData, setDeliveryData] = useState([]);  // Renamed 'Delivery' state variable to avoid confusion
+  const [searchDelivery, setSearchDelivery] = useState('');
+
+  // Fetch delivery details from Firestore
+  const getDeliveryDetails = async () => {
+    const response = await getDocs(collection(db, "Delivery")); 
+    const deliveryList = response.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    setDeliveryData(deliveryList);  // Update state
+  };
 
   useEffect(() => {
-    const fetchPayments = async () => {
-      setIsLoading(true);
-      try {
-        const response = await axios.get('http://localhost:5000/payments');
-        if (response && response.data && response.data.Payments) {
-          setPayments(response.data.Payments);
-        } else {
-          throw new Error('Invalid data format received from server');
-        }
-      } catch (error) {
-        setError(error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchPayments();
+    getDeliveryDetails();
   }, []);
 
-  useEffect(() => {
-    console.log('Payments:', payments);
-  }, [payments]);
-
-  const ComponentsRef = useRef();
-
-//   const handlePrint = useReactToPrint({
-//     content: () => ComponentsRef.current,
-//     documentTitle: "Delivery Schedule Report",
-//     onAfterPrint: () => alert("Delivery Schedule Report Successfully Downloaded!"),
-//   });
-
-  //search
-
-  const handleSearch = () => {
-    const filteredPayments = payments.filter((payment) =>
-      Object.values(payment).some((field) =>
-        field.toString().toLowerCase().includes(searchQuery.toLowerCase())
-      )
-    );
-    setPayments(filteredPayments);
-    setNoResults(filteredPayments.length === 0);
-  };
-
-  const handleFetchPayments = async () => {
-    setIsLoading(true);
+  // Delete a delivery item
+  const handleDelete = async (id) => {
     try {
-      const response = await axios.get('http://localhost:5000/payments');
-      if (response && response.data && response.data.Payments) {
-        setPayments(response.data.Payments);
-      } else {
-        throw new Error('Invalid data format received from server');
-      }
+      await deleteDoc(doc(db, "Delivery", id));
+      Swal.fire(
+        'Delivery Deleted!',
+        'The delivery has been successfully deleted.',
+        'success'
+      ).then(() => {
+        getDeliveryDetails();  // Refresh the delivery list
+      });
     } catch (error) {
-      setError(error);
-    } finally {
-      setIsLoading(false);
+      console.error(error);
+      Swal.fire(
+        'Error!',
+        'An error occurred while deleting the delivery.',
+        'error'
+      );
     }
-  };
-
-  const handleDelete = async (paymentId) => {
-    await axios.delete(`http://localhost:5000/payments/${paymentId}`);
-    handleFetchPayments(); // Fetch updated data after deletion
   };
 
   return (
     <div>
-      
-      <h1 className='Payment h1'>Delivery Schedule Details</h1>
-      {isLoading && <p>Loading payments...</p>}
-      {error && <p>Error fetching payments: {error.message}</p>}
-      <input
-        className='Payment-input'
-        onChange={(e) => setSearchQuery(e.target.value)}
-        type="text"
-        name="search"
-        placeholder='Search Payment Details'
-      />
-      <button className='Payment-search' onClick={handleSearch}>Search</button>
-      <br />
-      {payments.length > 0 ? (
-        <div ref={ComponentsRef}>
-          <div class="table-container">
-          <table className='payment-table'>
-            <thead>
-              <tr>
-                <th>Customer Name</th>
-                <th>Address</th>
-                <th>Phone Number</th>
-                <th>Prefered Date</th>
-                <th>Prefered Time</th>
-                <th>Status</th>
-                <th>Update</th>
-                <th>Delete</th>
+      <Nev />
+      <div className='profilecontent'>
+        <h1>Store Management</h1>
+        <table>
+          <tr>
+            <td className="searchbarcol">
+              <input
+                type="text"
+                id="search"
+                name="search"
+                placeholder="Search Delivery name..."
+                className="searchbar"
+                onChange={(e) => setSearchDelivery(e.target.value)}
+              />
+            </td>
+          </tr>
+        </table>
+
+        <div style={{ maxHeight: '220px', overflowY: 'scroll' }}>
+          <table className='searchtablemainmanager'>
+            <tr className='searchtablemainmanagerheader'>
+              <th>Name</th>
+              <th>Item</th>
+              <th>Street</th>
+              <th>Lane</th>
+              <th>City</th>
+              <th>Postal Code</th>
+              <th>Province</th>
+              <th>Phone No</th>
+              <th>Preferred Date</th>
+              <th>Preferred Time</th>
+              <th>Note</th>
+              <th>Delivery Status</th>
+              <th>Update</th>
+              <th>Delete</th>
+            </tr>
+            {deliveryData.filter((delivery) => {
+              return searchDelivery.toLowerCase() === '' 
+                ? delivery 
+                : delivery.name.toLowerCase().includes(searchDelivery.toLowerCase());
+            }).map((delivery) => (
+              <tr className='searchtablemainadmindata' key={delivery.id}>
+                <td className='searchtabledata'>{delivery.name}</td>
+                <td className='searchtabledata'>{delivery.item}</td>
+                <td className='searchtabledata'>{delivery.street}</td>
+                <td className='searchtabledata'>{delivery.lane}</td>
+                <td className='searchtabledata'>{delivery.city}</td>
+                <td className='searchtabledata'>{delivery.postalCode}</td>
+                <td className='searchtabledata'>{delivery.province}</td>
+                <td className='searchtabledata'>{delivery.phoneNo}</td>
+                <td className='searchtabledata'>{delivery.preferredDate}</td>
+                <td className='searchtabledata'>{delivery.preferredTime}</td>
+                <td className='searchtabledata'>{delivery.addNote}</td>
+                <td className='searchtabledata'>{delivery.deliveryStatus}</td>
+                <td>
+                  <Link to={`/updateDelivery/${delivery.id}`}>
+                    <button className='btnupdate'>Update</button>
+                  </Link>
+                </td>
+                <td>
+                  <button className='btndelete' onClick={() => handleDelete(delivery.id)}>Delete</button>
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              {payments.map(payment => (
-                <PaymentRow
-                  key={payment._id}
-                  payment={payment}
-                  handleDelete={handleDelete}
-                />
-              ))}
-            </tbody>
+            ))}
           </table>
-          </div>
         </div>
-      ) : (
-        <p>No payments to display.</p>
-      )}
-      <br></br>
-      {/* <button className='Payment-button' onClick={handlePrint}>Download Report</button> */}
-      <br></br>
+      </div>
     </div>
   );
 }
 
-function PaymentRow({ payment, handleDelete }) {
-  const { _id, fname, gmail, address, Phone, ServiceType, amount,promo, PaymentSlip,Status } = payment;
-
-  const deleteHandler = async () => {
-    await handleDelete(_id); // Call handleDelete with paymentId
-  };
-
-  return (
-    <tr>
-     
-      <td>{fname}</td>
-      <td>{gmail}</td>
-      <td>{address}</td>
-      <td>{Phone}</td>
-      <td>{ServiceType}</td>
-      <td>{Status}</td>
-      <td>
-        <button className='Payment-search'><Link to={`/paymentdetails/${_id}`} className='Payment-link'>Update</Link></button></td>
-        <td>
-        <button className='Payment-search' onClick={deleteHandler}>Delete</button>
-      </td>
-    </tr>
-  );
-}
-
-export default Payment;
+export default Delivery;  // Make sure the export matches the component name

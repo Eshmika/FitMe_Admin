@@ -11,7 +11,8 @@ import UpdateStore from './screen/Inventory/updatestore';
 import PayView from './screen/Pay/StViewOnline';
 import Invoice from './screen/Pay/invoice';
 import FeedbackView from './screen/Feedback/viewFeedback';
-import DeliveryView from './screen/Delivery/delivery'
+import DeliveryView from './screen/Delivery/delivery';
+import UpdateDelivery from './screen/Delivery/UpdateDelivery'
 import { auth } from './screen/Auth/firebase';
 import { useEffect, useState } from 'react';
 
@@ -36,6 +37,7 @@ function App() {
       <Route path="/invoice" element={ <Invoice /> } />
       <Route path="/feedbackView" element={ <FeedbackView /> } />
       <Route path="/delivery" element={ <DeliveryView /> } />
+      <Route path="/updateDelivery/:id" element={ <UpdateDelivery /> } />
 
 
 
