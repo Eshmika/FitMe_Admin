@@ -24,21 +24,9 @@ function StViewOnline() {
 
   const handleDelete = async (id) => {
     try {
-        await deleteDoc(doc(db, "payment", id));
-        Swal.fire(
-            'Payment Deleted!',
-            'The payment has been successfully deleted.',
-            'success'
-        ).then(() => {
-            getPaymentdetails();
-        });
+        await deleteDoc(doc(db, "payment", id));        
     } catch (error) {
-        console.error(error);
-        Swal.fire(
-            'Error!',
-            'An error occurred while deleting the payment.',
-            'error'
-        );
+        console.error(error);        
     }
   }  
 
@@ -159,7 +147,7 @@ function StViewOnline() {
                     </Link>
                   </td> */}
                   <td className='tdvo'>
-                    <input className="buttonvo6" type="button" name="delete" value="Delete" onClick={() => handleSubmit(payment._id)} />
+                    <input className="buttonvo6" type="button" name="delete" value="Delete" onClick={() => handleSubmit(payment.id)} />
                   </td>
                 </tr>
               ))}
