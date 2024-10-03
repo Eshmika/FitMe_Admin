@@ -1,98 +1,20 @@
-.Payment-search-container {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-    
-  }
-  
-  .Payment-input {
-    flex: 1;
-    padding: 10px;
-    border: 2px solid #677c92;
-    border-radius: 4px;
-    margin: 20px;
-    font-size: 16px;
-    transition: border-color 0.3s ease;
-    width: 100%; /* Change from fixed width to relative width */
-    max-width: 1120px; /* Optional: sets a maximum width to prevent it from stretching too much */
-    box-sizing: border-box; /* Ensures padding and border are included in the width */
-  }
-  
-  
-  .Payment-input::placeholder {
-    color: #aaa;
-  }
-  
-  .Payment-link{
-  
-    color: #fff;
-  }
-  
-  .display-details-Btn {
-    padding: 4px 10px;;
-    margin: 0 5px;
-    cursor: pointer;
-    border: none;
-    border-radius: 4px;
-    background-color: #050824; /* Updated background color */
-    color: #fff;
-  }
-  
-  .Payment-input:focus {
-    outline: none;
-    border-color: #6c7c8d;
-  }
-  
-  .Payment-search {
-    background-color: #050824; /* Default background color */
-    color: #fff; /* Text color */
-    padding: 10px 20px; /* Padding inside the button */
-    border: none; /* Remove default border */
-    border-radius: 5px; /* Rounded corners */
-    cursor: pointer; /* Pointer cursor on hover */
-    transition: background-color 0.3s ease; /* Smooth transition for the background color change */
-  }
-  
-  .Payment-search:hover {
-    background-color: #56575e; /* Background color when hovered */
-    /* Optional: Change text color or add other effects */
-  }
-  
-  
-  /* Container to horizontally center table */
-  .table-container {
-    display: flex; /* Use flexbox layout */
-    justify-content: center; /* Center horizontally */
-    margin-top: 20px; /* Optional: Add top margin to space out the table from the top */
-  }
-  
-  /* Table styles */
-  .payment-table {
-    width: auto; /* Table width adjusts based on content */
-    border-collapse: collapse; /* Remove space between cells */
-    margin: 0 auto; /* Center table horizontally */
-  }
-  
-  .payment-table td, 
-  .payment-table th {
-    border: 1px solid #677c92; /* Add border for each cell */
-    text-align: center; /* Center text in cells */
-    padding: 10px; /* Add padding inside cells */
-    box-sizing: border-box; /* Include padding and border in width/height */
-    white-space: nowrap; /* Prevents text from wrapping in cells */
-  }
-  
-  
-  /* .payment-table th {
-    background-color: #f2f2f2;
-    text-align: left;
-  } */
-  
-  .payment-table tr:hover {
-    background-color: #f2f2f2;
-  }
-  
-  .Payment.search {
-    margin: 5px;
-  }
-  
+/* Styles for the report generation buttons */
+.btnreport {
+  background-color: #4cafa7; /* Green background */
+  border: none;              /* Remove borders */
+  color: white;              /* White text */
+  padding: 10px 20px;        /* Add padding */
+  text-align: center;        /* Center text */
+  text-decoration: none;     /* Remove underline */
+  display: inline-block;     /* Make the buttons inline */
+  font-size: 16px;           /* Increase font size */
+  margin: 10px 2px;          /* Add some margin */
+  cursor: pointer;           /* Add pointer on hover */
+  border-radius: 5px;        /* Rounded corners */
+  transition: background-color 0.3s ease; /* Smooth background color change */
+}
+
+.btnreport:hover {
+  background-color: #b2d8d2; /* Darker green on hover */
+}
+

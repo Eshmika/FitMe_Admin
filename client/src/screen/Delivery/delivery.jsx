@@ -2,26 +2,26 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import Nev from '../Nav';
-
 import { collection, deleteDoc, doc, getDocs } from '@firebase/firestore';
 import { db } from '../Auth/firebase';
+import jsPDF from 'jspdf';  // For PDF generation
+import 'jspdf-autotable';   // Import the autoTable plugin for tables in PDF
+import './delivery.css'
 
-function Delivery() {  // Renamed to uppercase 'Delivery'
-  const [deliveryData, setDeliveryData] = useState([]);  // Renamed 'Delivery' state variable to avoid confusion
+function Delivery() {
+  const [deliveryData, setDeliveryData] = useState([]);
   const [searchDelivery, setSearchDelivery] = useState('');
 
-  // Fetch delivery details from Firestore
   const getDeliveryDetails = async () => {
-    const response = await getDocs(collection(db, "Delivery")); 
+    const response = await getDocs(collection(db, "Delivery"));
     const deliveryList = response.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    setDeliveryData(deliveryList);  // Update state
+    setDeliveryData(deliveryList);
   };
 
   useEffect(() => {
     getDeliveryDetails();
   }, []);
 
-  // Delete a delivery item
   const handleDelete = async (id) => {
     try {
       await deleteDoc(doc(db, "Delivery", id));
@@ -30,7 +30,7 @@ function Delivery() {  // Renamed to uppercase 'Delivery'
         'The delivery has been successfully deleted.',
         'success'
       ).then(() => {
-        getDeliveryDetails();  // Refresh the delivery list
+        getDeliveryDetails();
       });
     } catch (error) {
       console.error(error);
@@ -42,11 +42,67 @@ function Delivery() {  // Renamed to uppercase 'Delivery'
     }
   };
 
+  // Generate PDF report for "Delivered" deliveries
+  const generatePDF = () => {
+    const doc = new jsPDF();
+    const shippedData = deliveryData.filter(delivery => delivery.deliveryStatus === 'Pending');
+
+    doc.text('Pending Deliveries Report', 20, 10);
+
+    const tableData = shippedData.map((delivery, index) => [
+      index + 1,
+      delivery.name,
+      delivery.item,
+      `${delivery.street}, ${delivery.lane}, ${delivery.city}, ${delivery.province}, ${delivery.postalCode}`,
+      delivery.phoneNo,
+      delivery.preferredDate,
+      delivery.preferredTime,
+      delivery.addNote,
+    ]);
+
+    doc.autoTable({
+      head: [['#', 'Name', 'Item', 'Address', 'Phone', 'Date', 'Time', 'Note']],
+      body: tableData,
+    });
+
+    doc.save('Pending_deliveries_report.pdf');
+  };
+
+  
+
+     // Generate PDF report for "Pending" deliveries
+  const generatePDFDelivered = () => {
+    const doc = new jsPDF();
+    const shippedData = deliveryData.filter(delivery => delivery.deliveryStatus === 'Pending');
+
+    doc.text('Shipped Deliveries Report', 20, 10);
+
+    const tableData = shippedData.map((delivery, index) => [
+      index + 1,
+      delivery.name,
+      delivery.item,
+      `${delivery.street}, ${delivery.lane}, ${delivery.city}, ${delivery.province}, ${delivery.postalCode}`,
+      delivery.phoneNo,
+      delivery.preferredDate,
+      delivery.preferredTime,
+      delivery.addNote,
+    ]);
+
+    doc.autoTable({
+      head: [['#', 'Name', 'Item', 'Address', 'Phone', 'Date', 'Time', 'Note']],
+      body: tableData,
+    });
+
+    doc.save('shipped_deliveries_report.pdf');
+  };
+
+
+
   return (
     <div>
       <Nev />
       <div className='profilecontent'>
-        <h1>Store Management</h1>
+        <h1>Delivery Shcedule Management</h1>
         <table>
           <tr>
             <td className="searchbarcol">
@@ -62,16 +118,14 @@ function Delivery() {  // Renamed to uppercase 'Delivery'
           </tr>
         </table>
 
-        <div style={{ maxHeight: '220px', overflowY: 'scroll' }}>
+     
+
+        <div style={{ maxHeight: '220px', overflowY: 'scroll', marginTop: '20px' }}>
           <table className='searchtablemainmanager'>
             <tr className='searchtablemainmanagerheader'>
               <th>Name</th>
               <th>Item</th>
-              <th>Street</th>
-              <th>Lane</th>
-              <th>City</th>
-              <th>Postal Code</th>
-              <th>Province</th>
+              <th>Address</th>
               <th>Phone No</th>
               <th>Preferred Date</th>
               <th>Preferred Time</th>
@@ -81,18 +135,14 @@ function Delivery() {  // Renamed to uppercase 'Delivery'
               <th>Delete</th>
             </tr>
             {deliveryData.filter((delivery) => {
-              return searchDelivery.toLowerCase() === '' 
-                ? delivery 
+              return searchDelivery.toLowerCase() === ''
+                ? delivery
                 : delivery.name.toLowerCase().includes(searchDelivery.toLowerCase());
             }).map((delivery) => (
               <tr className='searchtablemainadmindata' key={delivery.id}>
                 <td className='searchtabledata'>{delivery.name}</td>
                 <td className='searchtabledata'>{delivery.item}</td>
-                <td className='searchtabledata'>{delivery.street}</td>
-                <td className='searchtabledata'>{delivery.lane}</td>
-                <td className='searchtabledata'>{delivery.city}</td>
-                <td className='searchtabledata'>{delivery.postalCode}</td>
-                <td className='searchtabledata'>{delivery.province}</td>
+                <td className='searchtabledata'>{delivery.street} ,{delivery.lane} , {delivery.city} , {delivery.province} ,{delivery.postalCode} </td>
                 <td className='searchtabledata'>{delivery.phoneNo}</td>
                 <td className='searchtabledata'>{delivery.preferredDate}</td>
                 <td className='searchtabledata'>{delivery.preferredTime}</td>
@@ -110,9 +160,33 @@ function Delivery() {  // Renamed to uppercase 'Delivery'
             ))}
           </table>
         </div>
+
+          {/* Report generation buttons Pending */}
+          <div style={{ marginTop: '20px' }}>
+          <button onClick={generatePDF} className="btnreport">Generate Pending Items Report</button>
+         
+        </div>
+
+          {/* Report generation buttons Delivered*/}
+          <div style={{ marginTop: '20px' }}>
+          <button onClick={generatePDFDelivered} className="btnreport">Generate Delivered Items Report</button>
+        
+        </div>
       </div>
+
+       
     </div>
+
+    
   );
+
+  
 }
 
-export default Delivery;  // Make sure the export matches the component name
+
+
+
+
+export default Delivery;
+
+

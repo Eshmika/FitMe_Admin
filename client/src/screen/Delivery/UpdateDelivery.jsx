@@ -101,6 +101,7 @@ function UpdateDelivery() {
                     <h2 class="form_topic">Update Delivery</h2>
                     <div className="input_container">
                     <form onSubmit={updateDelivery}>
+
     <label htmlFor="pname">Customer Name:</label>
     <input type="text" name="name" placeholder="Enter customer name" value={name} onChange={(e) => setName(e.target.value)} required />
 
@@ -135,7 +136,19 @@ function UpdateDelivery() {
     <input type="text" name="addNote" placeholder="Enter note" value={addNote} onChange={(e) => setNote(e.target.value)} required />
 
     <label htmlFor="deliveryStatus">Delivery Status:</label>
+    
     <input type="text" name="deliveryStatus" placeholder="Enter status" value={deliveryStatus} onChange={(e) => setStatus(e.target.value)} required />
+
+    <label htmlFor="deliveryStatus" className="input_col">Delivery Status:</label>
+    <select value={deliveryStatus} onChange={(e) => setStatus(e.target.value)}>
+    <option value="Pending">Pending</option>
+    <option value="Delivered">Delivered</option>
+    <option value="In Transit">In Transit</option>
+    <option value="Cancelled">Cancelled</option>
+    <option value="Returned">Returned</option>
+    <option value="Out for Delivery">Out for Delivery</option>
+</select>
+
 
     <div className="button-group">
         <button className="addNoticebutton" type="submit">Update Delivery</button>
