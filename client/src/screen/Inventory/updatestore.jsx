@@ -90,7 +90,7 @@ function UpdateStudent() {
             <Nev/>
             <div className='profilecontent'>
                 <div className="Noticecontainer">
-                    <h2 class="form_topic">Add Product</h2>
+                    <h2 class="form_topic">Update Product</h2>
                     <div className="input_container">
                         <form onSubmit={updateStudent}>
 
@@ -152,7 +152,7 @@ function UpdateStudent() {
 
 
                             <div className="button-group">
-                                <button className="addNoticebutton" type="submit">Add Product</button>
+                                <button className="addNoticebutton" type="submit">Update Product</button>
                                 <Link to="/invendashboad" className="cancelbutton_CN">Cancel</Link>
                             </div>
                         </form>

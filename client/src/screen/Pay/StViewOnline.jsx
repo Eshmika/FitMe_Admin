@@ -1,41 +1,47 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import './stviewonline.css';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import Swal from 'sweetalert2';
 import Nev from '../Nav';
+import { collection, deleteDoc, doc, getDocs } from '@firebase/firestore';
+import { db } from '../Auth/firebase';
 
 function StViewOnline() {
   const [payments, setPayments] = useState([]);
   const navigator = useNavigate();
 
+  const getPaymentdetails = async () => {
+    const response = await getDocs(collection(db, "payment")); 
+    const paymentList = response.docs.map(doc =>({ id: doc.id, ...doc.data() }));
+    setPayments(paymentList);
+  }  
+
   useEffect(() => {
-    axios.get('/getallpay')
-    .then((res) => setPayments(res.data))
-    .catch((err) => {
-        console.log(err);
-    })
-}, [])
+    getPaymentdetails();
+  }, []);
 
-  // useEffect(() => {
-  //   axios.get('http://Localhost:5000/displayonline')
-  //     .then((res) => {
-  //       // Filter payments to only include the ones with IT number 'IT12345678'
-  //       const filteredPayments = res.data.filter(payment => payment.itnumber === 'IT12345678');
-  //       setPayments(filteredPayments);
-  //     })
-  //     .catch((err) => console.error(err));
-  // }, []);
 
-  const handleDelete = (id) => {
-    axios.delete('http://Localhost:5000/deletepayment/' + id)
-      .then((res) => {
-        // Handle success if needed
-      })
-      .catch((err) => console.error(err));
-  }
+  const handleDelete = async (id) => {
+    try {
+        await deleteDoc(doc(db, "payment", id));
+        Swal.fire(
+            'Payment Deleted!',
+            'The payment has been successfully deleted.',
+            'success'
+        ).then(() => {
+            getPaymentdetails();
+        });
+    } catch (error) {
+        console.error(error);
+        Swal.fire(
+            'Error!',
+            'An error occurred while deleting the payment.',
+            'error'
+        );
+    }
+  }  
+
 
   const handleSubmit = (id) => {
     Swal.fire({
@@ -134,9 +140,9 @@ function StViewOnline() {
               {payments.map((payment) => (
                 <tr key={payment._id}>
                   <td className='tdvo'>{payment.cardname}</td>                  
-                  <td className='tdvo'>{payment.cardnumber}</td>
-                  <td className='tdvo4'>{payment.expiredate}</td>
-                  <td className='tdvo5'>{payment.securitycode}</td>
+                  <td className='tdvo'>{payment.cardNumber}</td>
+                  <td className='tdvo4'>{payment.expireDate}</td>
+                  <td className='tdvo5'>{payment.ccv}</td>
                   {/* <td className='tdvo' style={{ color: payment.status === 'Approved' ? 'green' : payment.status === 'Rejected' ? 'red' : payment.status === 'Pending' ? 'blue' : 'inherit' }}>{payment.status}</td> */}
                   {/* <td className='tdvo'>
                     {payment.status !== 'Approved' && payment.status !== 'Rejected' ? (
