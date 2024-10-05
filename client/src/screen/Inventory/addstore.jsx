@@ -4,10 +4,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import Nev from '../Nav';
 import { addDoc, collection } from '@firebase/firestore';
-import { db } from '../Auth/firebase';
+import { db, imagedb } from '../Auth/firebase';
+import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 
 
-function CreateNotice() {
+function CreateStore() {
     const [name, setName] = useState('');
     const [code, setCode] = useState('');
     const [category, setCategory] = useState('');
@@ -18,11 +19,24 @@ function CreateNotice() {
     const [material, setMaterial] = useState('');
     const [price, setPrice] = useState('');
     const [stock, setStock] = useState('');    
+    const [image, setImage] = useState(null); 
     const navigate = useNavigate();
+
+    const handleImagechange = (e) => {
+        setImage(e.target.files[0]);
+    }
 
     const submit = async (e) => {
         e.preventDefault();
         try {
+            let imageUrl = '';
+            if (image) {
+                const storageRef = ref(imagedb, "productsimages/" + image.name);
+                const uploadTask = uploadBytesResumable(storageRef, image);
+                const snapshot = await uploadTask;
+                imageUrl = await getDownloadURL(snapshot.ref);                
+            }
+
             await addDoc(collection(db, "products"), {
                 name: name,
                 code: code,
@@ -33,7 +47,8 @@ function CreateNotice() {
                 color: color,
                 material: material,
                 price: price,
-                stock: stock
+                stock: stock,
+                imageUrl: imageUrl
             });           
             Swal.fire(
                 'Product Added!',
@@ -51,6 +66,7 @@ function CreateNotice() {
             );
         }
     }
+
 
     return (
         <div >
@@ -117,6 +133,10 @@ function CreateNotice() {
                             <label htmlFor="stock">Quantity in Stock:</label>
                             <input type="number" name="stock" placeholder="Enter quantity in stock" onChange={(e) => setStock(e.target.value)} required />
 
+                            <div>
+                                <label htmlFor="productimage">Product Image:</label>
+                                <input type="file" name="productimage" onChange={handleImagechange} required />
+                            </div>
 
                             <div className="button-group">
                                 <button className="addNoticebutton" type="submit">Add Product</button>
@@ -130,4 +150,4 @@ function CreateNotice() {
     );
 }
 
-export default CreateNotice;
+export default CreateStore;

@@ -6,7 +6,7 @@ import Swal from 'sweetalert2';
 import { doc, getDoc, updateDoc } from '@firebase/firestore';
 import { db } from '../Auth/firebase';
 
-function UpdateStudent() {
+function UpdateStore() {
 
     const navigate = useNavigate();
     const [name, setName] = useState('');
@@ -163,4 +163,4 @@ function UpdateStudent() {
   )
 }
 
-export default UpdateStudent
+export default UpdateStore
