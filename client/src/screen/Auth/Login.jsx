@@ -20,7 +20,7 @@ function AdminLogin() {
       const { email, password } = data;
       await signInWithEmailAndPassword(auth, email, password);
       toast.success('Login Successfully!');
-      navigate('/home');
+      navigate('/invendashboad');
     }catch(error){
       console.log(error);
       toast.error(error.message);

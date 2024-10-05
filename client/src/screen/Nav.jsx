@@ -27,10 +27,10 @@ function Nav() {
     <div>
        <div className='sidenavbar'>                
                 <ul className='sidenavbarul'>
-                    <li>
+                    {/* <li> */}
                         {/* <img alt='inventory' className='navimage'/> */}
-                        <a href='/home'>Dashboard</a>
-                    </li>
+                        {/* <a href='/home'>Dashboard</a> */}
+                    {/* </li> */}
                     <li>
                         {/* <img alt='inventory' className='navimage'/> */}
                         <a href='/invendashboad'>Store Management</a>

@@ -9,6 +9,7 @@ import Insertstore from './screen/Inventory/addstore';
 import Invendashboad from './screen/Inventory/invendashboad';
 import UpdateStore from './screen/Inventory/updatestore';
 import PayView from './screen/Pay/StViewOnline';
+import EditOnline from './screen/Pay/StEditOnline';
 import Invoice from './screen/Pay/invoice';
 import FeedbackView from './screen/Feedback/viewFeedback';
 import DeliveryView from './screen/Delivery/delivery';
@@ -27,13 +28,14 @@ function App() {
     <>
     <Toaster position='top-center' toastOptions={{duration: 2000}}/>
     <Routes>
-      <Route path="/" element={ user ? <Navigate to="/home"/> : <Login /> } />  
+      <Route path="/" element={ user ? <Navigate to="/invendashboad"/> : <Login /> } />  
       <Route path="/register" element={ <Register /> } />
       <Route path="/home" element={ <Home /> } />
       <Route path="/insertstore" element={ <Insertstore /> } /> 
       <Route path="/invendashboad" element={ <Invendashboad /> } /> 
       <Route path="/updatestore/:id" element={ <UpdateStore /> } />
       <Route path="/payview" element={ <PayView /> } />
+      <Route path= '/editonline/:id' element = {<EditOnline/>} />
       <Route path="/invoice" element={ <Invoice /> } />
       <Route path="/feedbackView" element={ <FeedbackView /> } />
       <Route path="/delivery" element={ <DeliveryView /> } />

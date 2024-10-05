@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './stviewonline.css';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import Swal from 'sweetalert2';
 import Nev from '../Nav';
@@ -95,12 +95,12 @@ function StViewOnline() {
 
   const generatePDF = () => {
     const doc = new jsPDF();
-    const tableColumn = ["Card Name", "Card Number", "Expire Date", "Security Code"];
+    const tableColumn = ["Card Holder Name", "Card Number", "Expire Date", "Security Code"];
     const tableRows = [];
 
     payments.forEach(payment => {
       const paymentData = [
-        payment.cardname,
+        payment.cardHolderName,       
         payment.cardNumber,
         payment.expireDate,
         payment.ccv,
@@ -139,13 +139,13 @@ function StViewOnline() {
           <table className='tablevo'>
             <thead>
               <tr>
-                <th className='thvo'>Card Name</th>                
+                <th className='thvo'>Card Holder Name</th>                
                 <th className='thvo'>Card Number</th>
                 <th className='thvo'>Expire Date</th>
                 <th className='thvo'>Security Code</th>
                 {/* <th className='thvo'>Status</th> */}
-                {/* <th className='thvo'>Action</th>
-                <th className='thvo'></th> */}
+                {/* <th className='thvo'>Action</th> */}
+                <th className='thvo'></th>
                 <th className='thvo'></th>
               </tr>
             </thead>
@@ -156,7 +156,7 @@ function StViewOnline() {
             <tbody>
               {payments.map((payment) => (
                 <tr key={payment._id}>
-                  <td className='tdvo'>{payment.cardname}</td>                  
+                  <td className='tdvo'>{payment.cardHolderName}</td>                  
                   <td className='tdvo'>{payment.cardNumber}</td>
                   <td className='tdvo4'>{payment.expireDate}</td>
                   <td className='tdvo5'>{payment.ccv}</td>
@@ -169,12 +169,12 @@ function StViewOnline() {
                     ) : (
                       <input className="buttonvo7" type="button" name="cancel" value="Cancel" disabled />
                     )}
-                  </td>
+                  </td> */}
                   <td className='tdvo'>
-                    <Link to={`/editonline/${payment._id}`} >
+                    <Link to={`/editonline/${payment.id}`} >
                       <input className="buttonvo5" type="button" name="edit" value="Edit" />
                     </Link>
-                  </td> */}
+                  </td>
                   <td className='tdvo'>
                     <input className="buttonvo6" type="button" name="delete" value="Delete" onClick={() => handleSubmit(payment.id)} />
                   </td>
