@@ -16,6 +16,24 @@
     color: #ffffff;
 }
 
+.btnedit2{
+    width: 200px;
+    margin-left: 20px;
+    color: rgb(255, 255, 255);
+    font-family: 'Bahnschrift';    
+    font-weight: 800;
+    font-size: 18px;
+    background-color: #667A8A;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 10px;
+}
+
+.btnedit2:hover{
+    background-color: #343a3f;
+    color: #ffffff;
+}
+
 .searchbarcol{
     width: 1000px;
     margin-left: 20px;

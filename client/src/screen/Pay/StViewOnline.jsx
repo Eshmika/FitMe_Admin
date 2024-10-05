@@ -6,6 +6,8 @@ import Swal from 'sweetalert2';
 import Nev from '../Nav';
 import { collection, deleteDoc, doc, getDocs } from '@firebase/firestore';
 import { db } from '../Auth/firebase';
+import jsPDF from 'jspdf';  
+import 'jspdf-autotable';
 
 function StViewOnline() {
   const [payments, setPayments] = useState([]);
@@ -91,6 +93,32 @@ function StViewOnline() {
     }, 2800);
   };
 
+  const generatePDF = () => {
+    const doc = new jsPDF();
+    const tableColumn = ["Card Name", "Card Number", "Expire Date", "Security Code"];
+    const tableRows = [];
+
+    payments.forEach(payment => {
+      const paymentData = [
+        payment.cardname,
+        payment.cardNumber,
+        payment.expireDate,
+        payment.ccv,
+      ];
+      tableRows.push(paymentData);
+    });
+
+    doc.autoTable({
+      head: [tableColumn],
+      body: tableRows,
+      startY: 25,
+    });
+    
+    doc.setFontSize(16);
+    doc.text("FitMe Virtual Dressing Room\nPayments Report", doc.internal.pageSize.getWidth() / 2, 16, { align: 'center' });
+    doc.save('payment_records.pdf');
+  };
+
   return (
     <div>
       <Nev/>
@@ -98,6 +126,7 @@ function StViewOnline() {
       <div className='bodyvo'>
         <h1 className='h1vo'><br />Payments</h1>
         <button type="submit" name="online" className="buttonvo1">Online</button> <br />
+        <button className="buttonvo2" onClick={generatePDF}>Generate the Report</button>
         {/* <Link to={'/viewbank'} >
           <button type="submit" name="bank" className="buttonvo2">Bank</button>
         </Link>

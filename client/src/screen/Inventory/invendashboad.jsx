@@ -6,6 +6,8 @@ import './invendash.css'
 import { collection, deleteDoc, doc, getDocs } from '@firebase/firestore';
 import { db, imagedb } from '../Auth/firebase';
 import { deleteObject, ref } from 'firebase/storage';
+import jsPDF from 'jspdf';  
+import 'jspdf-autotable';
 
 function Invendashboad() {
 
@@ -46,7 +48,40 @@ function Invendashboad() {
             );
         }
     }   
-    
+
+    const generatePDF = () => {
+        const doc = new jsPDF();
+        const tableColumn = ["Name", "Code", "Category", "Subcategory", "Brand", "Size", "Color", "Material", "Price", "Stock"];
+        const tableRows = [];
+
+        products.filter((product) => {
+            return searchproduct.toLowerCase() === '' ? product : product.name.toLowerCase().includes(searchproduct);
+        }).forEach(product => {
+            const productData = [
+                product.name,
+                product.code,
+                product.category,
+                product.subcategory,
+                product.brand,
+                product.size,
+                product.color,
+                product.material,
+                product.price,
+                product.stock
+            ];
+            tableRows.push(productData);
+        });
+
+        doc.autoTable({
+            head: [tableColumn],
+            body: tableRows,
+            startY: 25,
+        });
+
+        doc.setFontSize(16);
+        doc.text("FitMe Virtual Dressing Room\nProduct Inventory Report", doc.internal.pageSize.getWidth() / 2, 16, { align: 'center' });
+        doc.save('product_inventory.pdf');
+    };   
 
   return (
     <div>
@@ -57,6 +92,9 @@ function Invendashboad() {
                 <tr>                
                     <td>          
                         <Link to={'/insertstore'}><button className='btnedit' type="submit">Add Store</button> </Link>
+                    </td>  
+                    <td>          
+                        <button className='btnedit2' onClick={generatePDF}>Generate the Report</button>
                     </td>             
                 </tr>
             </table>  
@@ -82,7 +120,7 @@ function Invendashboad() {
                         <th>Size</th>
                         <th>Color</th>
                         <th>Material</th>
-                        <th>Price</th>
+                        <th>Price (Rs.)</th>
                         <th>Stock</th> 
                         <th>Update</th>
                         <th>Delete</th>            
