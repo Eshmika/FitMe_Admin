@@ -109,6 +109,7 @@ function CreateStore() {
                                 <option value="T-shirts">T-shirts</option>
                                 <option value="Jeans">Jeans</option>
                                 <option value="Dresses">Dresses</option>
+                                <option value="Hoodies">Hoodies</option>
                             </select>
 
                             <label htmlFor="brand">Brand:</label>
@@ -133,6 +134,7 @@ function CreateStore() {
                                 <option value="Cotton">Cotton</option>
                                 <option value="Denim">Denim</option>
                                 <option value="Leather">Leather</option>
+                                <option value="Polyester">Polyester</option>
                                 <option value="Linen">Linen</option>
                                 <option value="Silk">Silk</option>
                                 <option value="Velvet">Velvet</option>

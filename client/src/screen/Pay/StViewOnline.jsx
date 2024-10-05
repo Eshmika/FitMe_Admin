@@ -87,7 +87,7 @@ function StViewOnline() {
           },
         });
         setTimeout(() => {
-          navigator('/home');
+          navigator('/invendashboad');
         }, 2500);
       }, 2500);
     }, 2800);
