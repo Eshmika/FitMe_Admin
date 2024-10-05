@@ -20,6 +20,7 @@ function CreateStore() {
     const [price, setPrice] = useState('');
     const [stock, setStock] = useState('');    
     const [image, setImage] = useState(null); 
+    const [uploadProgress, setUploadProgress] = useState(0);
     const navigate = useNavigate();
 
     const handleImagechange = (e) => {
@@ -33,30 +34,41 @@ function CreateStore() {
             if (image) {
                 const storageRef = ref(imagedb, "productsimages/" + image.name);
                 const uploadTask = uploadBytesResumable(storageRef, image);
-                const snapshot = await uploadTask;
-                imageUrl = await getDownloadURL(snapshot.ref);                
-            }
+    
+                uploadTask.on('state_changed', 
+                    (snapshot) => {
+                        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                        setUploadProgress(progress);
+                        console.log('Upload is ' + progress + '% done');
+                    }, 
+                    (error) => {
+                        console.error(error);
+                        Swal.fire('Error!', 'An error occurred while uploading the image.', 'error');
+                    }, 
+                    async () => {
+                        imageUrl = await getDownloadURL(uploadTask.snapshot.ref);
 
-            await addDoc(collection(db, "products"), {
-                name: name,
-                code: code,
-                category: category,
-                subcategory: subcategory,
-                brand: brand,
-                size: size,
-                color: color,
-                material: material,
-                price: price,
-                stock: stock,
-                imageUrl: imageUrl
-            });           
-            Swal.fire(
-                'Product Added!',
-                'Your product has been successfully added.',
-                'success'
-            ).then(() => {
-                navigate('/invendashboad');
-            });
+                        await addDoc(collection(db, "products"), {
+                            name: name,
+                            code: code,
+                            category: category,
+                            subcategory: subcategory,
+                            brand: brand,
+                            size: size,
+                            color: color,
+                            material: material,
+                            price: price,
+                            stock: stock,
+                            imageUrl: imageUrl
+                        });
+    
+                        Swal.fire('Product Added!', 'Your product has been successfully added.', 'success')
+                        .then(() => {
+                            navigate('/invendashboad');
+                        });
+                    }
+                );
+            }
         } catch (error) {
             console.error(error);
             Swal.fire(
@@ -137,6 +149,14 @@ function CreateStore() {
                                 <label htmlFor="productimage">Product Image:</label>
                                 <input type="file" name="productimage" onChange={handleImagechange} required />
                             </div>
+
+                            {uploadProgress && (
+                                <div>
+                                    <label>Upload Progress:</label>
+                                    <progress value={uploadProgress} max="100" />
+                                    <span>{Math.round(uploadProgress)}%</span>
+                                </div>
+                            )}
 
                             <div className="button-group">
                                 <button className="addNoticebutton" type="submit">Add Product</button>

@@ -4,7 +4,8 @@ import Swal from 'sweetalert2';
 import Nev from '../Nav';
 import './invendash.css'
 import { collection, deleteDoc, doc, getDocs } from '@firebase/firestore';
-import { db } from '../Auth/firebase';
+import { db, imagedb } from '../Auth/firebase';
+import { deleteObject, ref } from 'firebase/storage';
 
 function Invendashboad() {
 
@@ -21,8 +22,13 @@ function Invendashboad() {
         getProductdetails();
     }, []);
 
-    const handleDelete = async (id) => {
+    const handleDelete = async (id, imageUrl) => {
         try {
+            if(imageUrl){
+                const imageRef = ref(imagedb, imageUrl);
+                await deleteObject(imageRef);
+            }
+
             await deleteDoc(doc(db, "products", id));
             Swal.fire(
                 'Product Deleted!',
@@ -64,10 +70,11 @@ function Invendashboad() {
                 </tr>
             </table>   
 
-            <div style={{ maxHeight: '220px', overflowY: 'scroll' }}>
+            <div style={{ maxHeight: '480px', overflowY: 'scroll' }}>
                 <table className='searchtablemainmanager'>
                     <tr className='searchtablemainmanagerheader'>
                         <th>Name</th>
+                        <th>Product Image</th>
                         <th>Code</th>
                         <th>Category</th>
                         <th>Subcategory</th>
@@ -85,6 +92,9 @@ function Invendashboad() {
                     }).map((product) => (
                         <tr className='searchtablemainadmindata'>
                             <td className='searchtabledata'>{product.name}</td>
+                            <td className='searchtabledata'>
+                                <img src={product.imageUrl} alt={product.name} style={{ width: '80px', height: '80px' }} /> 
+                            </td>
                             <td className='searchtabledata'>{product.code}</td>
                             <td className='searchtabledata'>{product.category}</td>
                             <td className='searchtabledata'>{product.subcategory}</td>
@@ -101,7 +111,7 @@ function Invendashboad() {
                                 </Link>
                             </td>
                             <td>
-                                <button className='btndelete' onClick={() => handleDelete(product.id)}>Delete</button>
+                                <button className='btndelete' onClick={() => handleDelete(product.id, product.imageUrl)}>Delete</button>
                             </td>
                         </tr>
                     ))}
