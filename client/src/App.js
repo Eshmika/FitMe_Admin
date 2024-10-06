@@ -45,7 +45,7 @@ function App() {
       <Route path="/payview" element={ <PayView /> } />
       <Route path= '/editonline/:id' element = {<EditOnline/>} />
       <Route path="/invoice" element={ <Invoice /> } />
-      <Route path="/feedbackView" element={ <FeedbackView /> } />
+      {/* <Route path="/feedbackView" element={ <FeedbackView /> } /> */}
       <Route path="/delivery" element={ <DeliveryView /> } />
       <Route path="/updateDelivery/:id" element={ <UpdateDelivery /> } />
       <Route path="/viewRecord" element={ <ViewQuestions/> } />
