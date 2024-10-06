@@ -95,15 +95,20 @@ function StViewOnline() {
 
   const generatePDF = () => {
     const doc = new jsPDF();
-    const tableColumn = ["Card Holder Name", "Card Number", "Expire Date", "Security Code"];
+    const tableColumn = ["Username", "Payment Type", "Card Holder Name", "Card Number", "Expire Date", "Security Code", "Date", "Item Name", "Total Price"];
     const tableRows = [];
 
     payments.forEach(payment => {
       const paymentData = [
+        payment.username,
+        payment.paymentType,
         payment.cardHolderName,       
         payment.cardNumber,
         payment.expireDate,
         payment.ccv,
+        payment.date,
+        payment.itemname,
+        payment.totalprice
       ];
       tableRows.push(paymentData);
     });
@@ -139,10 +144,15 @@ function StViewOnline() {
           <table className='tablevo'>
             <thead>
               <tr>
+                <th className='thvo'>Username</th>
+                <th className='thvo'>Payment Type</th>
                 <th className='thvo'>Card Holder Name</th>                
                 <th className='thvo'>Card Number</th>
                 <th className='thvo'>Expire Date</th>
                 <th className='thvo'>Security Code</th>
+                <th className='thvo'>Date</th>
+                <th className='thvo'>Item Name</th>                
+                <th className='thvo'>Total Price</th>                
                 {/* <th className='thvo'>Status</th> */}
                 {/* <th className='thvo'>Action</th> */}
                 <th className='thvo'></th>
@@ -156,10 +166,15 @@ function StViewOnline() {
             <tbody>
               {payments.map((payment) => (
                 <tr key={payment._id}>
+                  <td className='tdvo'>{payment.username}</td>
+                  <td className='tdvo'>{payment.paymentType}</td>
                   <td className='tdvo'>{payment.cardHolderName}</td>                  
                   <td className='tdvo'>{payment.cardNumber}</td>
                   <td className='tdvo4'>{payment.expireDate}</td>
                   <td className='tdvo5'>{payment.ccv}</td>
+                  <td className='tdvo'>{payment.date}</td>
+                  <td className='tdvo'>{payment.itemname}</td>                 
+                  <td className='tdvo'>{payment.totalprice}</td>
                   {/* <td className='tdvo' style={{ color: payment.status === 'Approved' ? 'green' : payment.status === 'Rejected' ? 'red' : payment.status === 'Pending' ? 'blue' : 'inherit' }}>{payment.status}</td> */}
                   {/* <td className='tdvo'>
                     {payment.status !== 'Approved' && payment.status !== 'Rejected' ? (
