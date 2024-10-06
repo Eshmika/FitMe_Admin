@@ -1,0 +1,141 @@
+* {
+    font-family: 'Calibri';
+}
+
+.cusSupNav {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #ffffff;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    margin-left: 200px;
+}
+
+.cusSupNavItem {
+    float: left;
+}
+
+.cusSupNavItem a {
+    display: block;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-family: 'Calibri';
+    font-weight: 500;
+    font-size: 20px;
+}
+
+.cusSupNavItem a:hover:not(.active) {
+    background-color: #C6E6FF;
+    color: #8A8A8A;
+}
+
+.active {
+    background-color: #3898f8;
+    color: #ffffff;
+}
+
+.pageContent {
+    margin-top: 50px;
+    margin-left: 250px;
+}
+
+.cusBtn {
+    width: 150px;
+    position: absolute;
+    right: 30px;
+    color: rgb(255, 255, 255);
+    font-family: 'Bahnschrift';
+    font-weight: 800;
+    font-size: 18px;
+    background-color: #667A8A;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 10px;
+}
+
+.cusBtn:hover {
+    background-color: #343a3f;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.cusSearchBar{
+    margin: 10px;
+    padding: 10px;
+}
+
+.cusSearchBar_label{
+    font-size: large;
+    margin: 10px;
+    padding: 10px;
+}
+
+.cusSearchBar_input{
+    height: 40px;
+    width: 200px;
+    border-radius: 5px;
+    font-size: medium;
+}
+
+.cusTable{
+    margin: 10px;
+    width: 98%;
+    border: 1px solid #ffffff;
+    border-collapse: collapse;
+}
+
+.cusTableHeader{
+    border: 1px solid #ffffff;
+    background-color: #ffffff;
+    height: 50px;
+    text-align: center;
+    font-size: large;
+    font-weight: 600;
+}
+
+.cusTableDataRow{
+    border: 1px solid #ffffff;
+}
+
+.cusTableData{
+    padding: 10px;
+}
+
+.cusAction{
+    width: 50px;
+    height: 50px;
+    background-color: transparent;
+    border: #ffffff;
+    border-radius: 10px;
+}
+
+.cusAction:hover {
+    background-color: #343a3f;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.cusBtn1 {
+    width: 150px;
+    position: absolute;
+    right: 30px;
+    top: 100px;
+    color: rgb(255, 255, 255);
+    font-family: 'Bahnschrift';
+    font-weight: 800;
+    font-size: 18px;
+    background-color: #667A8A;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 10px;
+}
+
+.cusBtn1:hover {
+    background-color: #343a3f;
+    color: #ffffff;
+    cursor: pointer;
+}

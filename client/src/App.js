@@ -11,9 +11,17 @@ import UpdateStore from './screen/Inventory/updatestore';
 import PayView from './screen/Pay/StViewOnline';
 import EditOnline from './screen/Pay/StEditOnline';
 import Invoice from './screen/Pay/invoice';
-import FeedbackView from './screen/Feedback/viewFeedback';
+// import FeedbackView from './screen/Feedback/viewFeedback';
 import DeliveryView from './screen/Delivery/delivery';
 import UpdateDelivery from './screen/Delivery/UpdateDelivery'
+
+import AddQuestions from './screen/Feedback/AddQuestions';
+import ViewQuestions from './screen/Feedback/ViewQuestions';
+import UpdateQuestions from './screen/Feedback/UpdateQuestions';
+import ViewFeedback from './screen/Feedback/ViewFeedback';
+import CusInquries from './screen/Feedback/CusInquiries';
+import SolveCusInquries from './screen/Feedback/SolveCusInquiries';
+
 import { auth } from './screen/Auth/firebase';
 import { useEffect, useState } from 'react';
 
@@ -40,11 +48,12 @@ function App() {
       <Route path="/feedbackView" element={ <FeedbackView /> } />
       <Route path="/delivery" element={ <DeliveryView /> } />
       <Route path="/updateDelivery/:id" element={ <UpdateDelivery /> } />
-
-
-
-         
-
+      <Route path="/viewRecord" element={ <ViewQuestions/> } />
+      <Route path="/addRecord" element={ <AddQuestions/> } />
+      <Route path="/updateRecord/:id" element={ <UpdateQuestions/> } />
+      <Route path="/viewFeedback" element={ <ViewFeedback/> } />
+      <Route path="/cusInquries" element={ <CusInquries/> } />
+      <Route path="/solveCusInquries/:id" element={ <SolveCusInquries/> } />
     </Routes>    
     </>
   );

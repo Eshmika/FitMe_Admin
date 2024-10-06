@@ -43,9 +43,12 @@ function Nav() {
                         {/* <img alt='inventory' className='navimage'/> */}
                         <a href='/payview'>Payment</a>
                     </li>
-                    <li>
+                    <li className='sectionHead'> Customer Inquires
                         {/* <img alt='inventory' className='navimage'/> */}
-                        <a href='/feedbackView'>Feedback</a>
+                        <ul className='subSection'> 
+                            <li><a href='/viewFeedback'>Feedback</a></li>
+                            <li><a href='/viewRecord'>Customer Inquiries</a></li>
+                        </ul>
                     </li>
                     <li>
                         {/* <img alt='inventory' className='navimage'/> */}
