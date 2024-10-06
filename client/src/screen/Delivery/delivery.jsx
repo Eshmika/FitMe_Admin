@@ -73,7 +73,7 @@ function Delivery() {
      // Generate PDF report for "Pending" deliveries
   const generatePDFDelivered = () => {
     const doc = new jsPDF();
-    const shippedData = deliveryData.filter(delivery => delivery.deliveryStatus === 'Pending');
+    const shippedData = deliveryData.filter(delivery => delivery.deliveryStatus === 'Delivered');
 
     doc.text('Shipped Deliveries Report', 20, 10);
 
