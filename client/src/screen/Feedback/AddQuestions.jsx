@@ -88,6 +88,7 @@ function AddQuestions() {
                                 name="keywords"
                                 onChange={(e) => setKeywords(e.target.value)}
                                 style={{ display: 'block', marginBottom: '10px', width: '100%', padding: '10px' }}
+                                required
                             />
 
                             <div className="button-group">
