@@ -48,7 +48,7 @@ function SolveCusInquries() {
                 matchedAnswer: reply,
                 status: "resolved"
             });
-            alert("Reply submitted and status updated to 'resolved'.");
+            // alert("Reply submitted and status updated to 'resolved'.");
             navigate('/cusInquries'); // Redirect to inquiries page after submission
         } catch (error) {
             console.error("Error updating the record:", error);

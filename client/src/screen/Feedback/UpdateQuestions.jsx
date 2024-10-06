@@ -84,11 +84,11 @@ function UpdateQuestions() {
                                required 
                                onChange={(e) => setCategory(e.target.value)}>
                                 <option value="">Select</option>
-                                <option value="order">Ordering Process</option>
-                                <option value="delivery">Delivery Process</option>
-                                <option value="payment">Payment Process</option>
-                                <option value="return">Return & Refund Process</option>
-                                <option value="product">Product Information</option>
+                                <option value="Order">Ordering Process</option>
+                                <option value="Delivery">Delivery Process</option>
+                                <option value="Payment">Payment Process</option>
+                                <option value="Return & Refund">Return & Refund Process</option>
+                                <option value="Product">Product Information</option>
                             </select>
 
                             <label htmlFor="question">Question:</label>
