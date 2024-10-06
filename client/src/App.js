@@ -11,7 +11,6 @@ import UpdateStore from './screen/Inventory/updatestore';
 import PayView from './screen/Pay/StViewOnline';
 import EditOnline from './screen/Pay/StEditOnline';
 import Invoice from './screen/Pay/invoice';
-// import FeedbackView from './screen/Feedback/viewFeedback';
 import DeliveryView from './screen/Delivery/delivery';
 import UpdateDelivery from './screen/Delivery/UpdateDelivery'
 
@@ -45,7 +44,6 @@ function App() {
       <Route path="/payview" element={ <PayView /> } />
       <Route path= '/editonline/:id' element = {<EditOnline/>} />
       <Route path="/invoice" element={ <Invoice /> } />
-      {/* <Route path="/feedbackView" element={ <FeedbackView /> } /> */}
       <Route path="/delivery" element={ <DeliveryView /> } />
       <Route path="/updateDelivery/:id" element={ <UpdateDelivery /> } />
       <Route path="/viewRecord" element={ <ViewQuestions/> } />
