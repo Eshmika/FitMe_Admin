@@ -97,12 +97,19 @@ function StViewOnline() {
     const doc = new jsPDF();
     const tableColumn = ["Username", "Payment Type", "Card Holder Name", "Card Number", "Expire Date", "Security Code", "Date", "Item Name", "Total Price"];
     const tableRows = [];
-
+  
+    // Calculate payment counts for card and cash payments
+    const paymentCounts = {
+      card: payments.filter(payment => payment.paymentType === 'Card').length,
+      cash: payments.filter(payment => payment.paymentType === 'cash').length,
+    };
+  
+    // Gather payment data
     payments.forEach(payment => {
       const paymentData = [
         payment.username,
         payment.paymentType,
-        payment.cardHolderName,       
+        payment.cardHolderName,
         payment.cardNumber,
         payment.expireDate,
         payment.ccv,
@@ -112,18 +119,28 @@ function StViewOnline() {
       ];
       tableRows.push(paymentData);
     });
-
+  
+    // Set the title at the top of the document
+    doc.setFontSize(16);
+    doc.text("FitMe Virtual Dressing Room\nPayments Report", doc.internal.pageSize.getWidth() / 2, 16, { align: 'center' });
+  
+    // Generate the table
     doc.autoTable({
       head: [tableColumn],
       body: tableRows,
-      startY: 25,
+      startY: 25, // Starts the table below the title
     });
+  
+    // Add payment statistics below the table
+    doc.setFontSize(12);
+    const statisticsStartY = doc.autoTable.previous.finalY + 10; // Position after the table
+    doc.text(`Total Card Payments: ${paymentCounts.card}`, 14, statisticsStartY);
+    doc.text(`Total Cash Payments: ${paymentCounts.cash}`, 14, statisticsStartY + 10);
     
-    doc.setFontSize(16);
-    doc.text("FitMe Virtual Dressing Room\nPayments Report", doc.internal.pageSize.getWidth() / 2, 16, { align: 'center' });
+    // Save the PDF
     doc.save('payment_records.pdf');
   };
-
+  
   return (
     <div>
       <Nev/>
