@@ -21,6 +21,8 @@ import ViewFeedback from './screen/Feedback/ViewFeedback';
 import CusInquries from './screen/Feedback/CusInquiries';
 import SolveCusInquries from './screen/Feedback/SolveCusInquiries';
 
+import Test from './screen/Inventory/test';
+
 import { auth } from './screen/Auth/firebase';
 import { useEffect, useState } from 'react';
 
@@ -52,6 +54,8 @@ function App() {
       <Route path="/viewFeedback" element={ <ViewFeedback/> } />
       <Route path="/cusInquries" element={ <CusInquries/> } />
       <Route path="/solveCusInquries/:id" element={ <SolveCusInquries/> } />
+
+      <Route path="/test" element={ <Test /> } />
     </Routes>    
     </>
   );
